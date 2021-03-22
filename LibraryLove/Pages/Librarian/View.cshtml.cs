@@ -46,7 +46,7 @@ namespace LibraryLove.Pages.Librarian
 
                     Books.Add(record);
                 }
-
+              
                 reader.Close();
             }
         }
