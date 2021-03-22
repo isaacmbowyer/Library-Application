@@ -1,0 +1,78 @@
+﻿@page
+@model LibraryLove.Pages.Librarian.ManageModel
+@{
+}
+
+
+<div class="d-md-flex mb-2">
+    <p class="mr-2">There are currently @Model.Books.Count books</p>
+    <a asp-page="Create" class="btn text-white">Add a Book Collection</a>
+</div>
+    
+
+
+
+<!--LIST OF BOOKS TABLE -->
+<table id="bookTable" class="table table-striped border">
+    <thead>
+        <tr>
+            <th>
+                <label asp-for="Books.FirstOrDefault().Title"></label>
+            </th>
+            <th>
+                <label asp-for="Books.FirstOrDefault().ISBN"></label>
+            </th>
+            <th>
+                <label asp-for="Books.FirstOrDefault().Quantity"></label>
+            </th>
+            <th>
+                <label>Actions</label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td> @item.Title </td>
+                <td> @item.ISBN</td>
+                <td class="quantity"> @item.Quantity </td>
+                <td>
+                    <button book-id="@item.Id" class="addQuantityBtn btn" data-toggle="modal" data-target="#quantityModal">Add Quantity</button>
+                    <a asp-page="Details" asp-route-id="@item.Id" class="btn ml-md-2 ml-sm-0 mt-md-0 mt-3 " style="width: 105.54px;">Details</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<div id="quantiyModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Stock up more Books</h4>
+                <button type="button" class="close" data-dismiss="modal">x</button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <input type="hidden" asp-for="BookRecord.BookId" class="hiddenBookId" />
+                    <input type="hidden" asp-for="BookRecord.CurrentBooks" class="hiddenQuantityBooks" />
+                    <div class="form-group">
+                        <label asp-for="BookRecord.AddedBooks" class="lead"></label>
+                        <input type="number" asp-for="BookRecord.AddedBooks" min="1" max="20" class="form-control addedQuantity" />
+                        <span id="error" class="text-danger"></span>
+                    </div>
+                    <input type="button" value="Add More Books" class="btn form-control submit" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/js/quantity.js"></script>
+}
+

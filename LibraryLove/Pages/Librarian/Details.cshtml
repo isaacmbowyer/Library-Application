@@ -1,0 +1,64 @@
+﻿@page
+@model LibraryLove.Pages.Librarian.DetailsModel
+@{
+    DateTime currentDate = DateTime.Now; // get the current time
+}
+
+
+
+<div class="container">
+    @if(Model.LoanedBooks.Count != 0)
+    {
+        <table class="table table-striped border">
+            <thead class="table-secondary">
+                <tr>
+                    <th>
+                        <label asp-for="LoanedBooks.FirstOrDefault().CustomerUsername"></label>
+                    </th>
+                    <th>
+                        <label asp-for="LoanedBooks.FirstOrDefault().CustomerFirstName"></label>
+                    </th>
+                    <th>
+                        <label asp-for="LoanedBooks.FirstOrDefault().CustomerLastName"></label>
+                    </th>
+                    <th>
+                        <label asp-for="LoanedBooks.FirstOrDefault().LoanedDate"></label>
+                    </th>
+                    <th>
+                        <label asp-for="LoanedBooks.FirstOrDefault().ReturnDate"></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.LoanedBooks)
+                {
+                <tr>
+                    <td> @item.CustomerUsername </td>
+                    <td> @item.CustomerFirstName</td>
+                    <td> @item.CustomerLastName</td>
+
+                    @if (item.ReturnDate > currentDate)
+                    {
+                        // Customer still has time to read their book
+                        <td class="text-success">@item.LoanedDate.ToString("dd/MM/yyyy")</td>
+
+                    }
+                    else
+                    {
+                        // Customer has penalty on their book
+                        <td class="text-danger">@item.LoanedDate.ToString("dd/MM/yyyy")</td>
+                    }
+                    <td>@item.ReturnDate.ToString("dd/MM/yyyy")</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <p class="lead">No Customers have loaned this Book</p>
+    }
+
+    <a asp-page="Manage" class="btn btn-primary">Back to Book List</a>
+</div>

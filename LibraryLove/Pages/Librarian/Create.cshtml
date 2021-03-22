@@ -1,0 +1,90 @@
+﻿@page
+@model LibraryLove.Pages.Librarian.CreateModel
+@{
+}
+
+<div class="container">
+    <h1>Add a New Book Collection</h1>
+    <br />
+    <!--To support file uploading we need to specify an encytpe attribute-->
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="BookRecord.Image">
+        <div class="form-group">
+            <div class="mb-1">
+                @*@Html.DisplayNameFor(model => model.BookRecord.Title)*@
+                <label asp-for="BookRecord.Title"></label><sup>*</sup>
+            </div>
+            <div>
+                <input type="text" asp-for="BookRecord.Title" class="form-control" />
+            </div>
+            <span asp-validation-for="BookRecord.Title" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="mb-1">
+                <label asp-for="BookRecord.AuthorFirstName"></label><sup>*</sup>
+            </div>
+            <div>
+                <input type="text" asp-for="BookRecord.AuthorFirstName" class="form-control" />
+            </div>
+            <span asp-validation-for="BookRecord.AuthorFirstName" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="mb-1">
+                <label asp-for="BookRecord.AuthorLastName"></label><sup>*</sup>
+            </div>
+            <div>
+                <input type="text" asp-for="BookRecord.AuthorLastName" class="form-control" />
+            </div>
+            <span asp-validation-for="BookRecord.AuthorLastName" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="mb-1">
+                <label asp-for="BookRecord.ISBN"></label><sup>*</sup>
+            </div>
+            <div>
+                <input type="number" asp-for="BookRecord.ISBN" class="form-control" />
+            </div>
+            <span asp-validation-for="BookRecord.ISBN" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="form-group row">
+            <div class="mb-1 col-12">
+                <label asp-for="BookRecord.Genre"></label><sup>*</sup>
+            </div>
+            <div class="col-12">
+                <select asp-for="BookRecord.Genre"
+                        asp-items="@Html.GetEnumSelectList<LibraryLove.Model.BookGenre>()"
+                        class="custom-select mr-sm-2">
+                    <option value="">Select a Genre</option>
+                </select>
+                <span asp-validation-for="BookRecord.Genre" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label asp-for="BookRecord.UploadImage"></label>
+            <div class="custom-file">
+                <input asp-for="BookRecord.UploadImage" class="form-control custom-file-input" />
+                <label class="custom-file-label">Choose File</label>
+            </div>
+            <span asp-validation-for="BookRecord.UploadImage" class="text-danger"></span>
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <div>
+                <input type="submit" value="Add Book Collection" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <!---Code to display the filename to the user-->
+    <script src="~/js/fileUpload.js"></script>
+}

@@ -1,0 +1,15 @@
+﻿:root {
+    --bgMain: #ffffff;
+    --bgBook: #7494ed;
+    --bgMainBook: rgba(0, 0, 0, .03);
+    --bgFooter: #717070;
+    --bgNav: #0e7edf;
+    --bgBtn: #0927f3;
+    --bgTable: #c4c4c4;
+    --bgTableBtn: #3ec4c6;
+    --bgModal: #ffffff;
+    --mainText: #000000;
+    --secondaryText: #100f0f;
+    --tableText: #000000;
+    --border: #000000;
+}

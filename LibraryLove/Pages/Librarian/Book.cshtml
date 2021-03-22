@@ -1,0 +1,38 @@
+﻿@page
+@model LibraryLove.Pages.Librarian.BookModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-5">
+        <img src="~/Images/@Model.BookRecord.Image" class="bookimg" />
+    </div>
+    <div class="col-md-7">
+        <div>
+            <h1>@Model.BookRecord.Title</h1>
+            <h3>@Model.BookRecord.GetFullName()</h3>
+            <h5>@Model.BookRecord.ISBN</h5>
+        </div>
+        <div class="my-4">
+            <a asp-page="Edit" asp-route-id="@Model.BookRecord.Id" class="btn btn-primary">Edit Book Details</a>
+        </div>
+        <div>
+            @if (Model.BookRecord.Quantity == -1)
+            {
+                <p>This Book has only just been released for the Library</p>
+            }
+            else if (Model.BookRecord.Quantity == 0)
+            {
+                <p>This Book is currently out of stock</p>
+            }
+            else if (Model.BookRecord.Quantity == 1)
+            {
+                <p>There is @Model.BookRecord.Quantity copy of this books left</p>
+            }
+            else
+            {
+                <p>There is @Model.BookRecord.Quantity copies of this books left</p>
+            }
+        </div>
+    </div>
+</div>
