@@ -9,7 +9,7 @@ namespace LibraryLove
     {
         public string DbString()
         {
-            string dbString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Isaac Bowyer\source\repos\LibraryLove\LibraryLove\Data\LibraryDB.mdf;Integrated Security=True;Connect Timeout=30";
+            string dbString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Isaac Bowyer\source\repos\LibraryLove\LibraryLove\Data\LibraryLoveDB.mdf;Integrated Security=True";
             return dbString;
         }
     }
