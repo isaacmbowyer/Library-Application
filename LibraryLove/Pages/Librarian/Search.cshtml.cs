@@ -41,21 +41,19 @@ namespace LibraryLove.Pages.Librarian
 
                     command.Connection = conn;
 
-                    try
+                    // An Valid ISBN is 6 numeric digits long, check that this is is entered
+                    bool isDigits = (SearchTerm.All(char.IsDigit) && SearchTerm.Length == 6);
+                    if (isDigits)
                     {
-                        // If this code exectues correctly, the search will be ISBN
-                        int ISBN = Int32.Parse(SearchTerm);
+                        // User wished to search for an ISBN
                         command.CommandText = @"SELECT Id, Title, AuthorFirstName, AuthorLastName, Image  FROM Book WHERE ISBN = @BSearch";
-                        command.Parameters.AddWithValue("@BSearch", ISBN);
+                        command.Parameters.AddWithValue("@BSearch", Int32.Parse(SearchTerm));
                     }
-                    catch (FormatException e)
-                    {
-
-                        // The search is Title
+                    else { 
+                        // User wished to search for a Title 
                         command.CommandText = @"SELECT Id, Title, AuthorFirstName, AuthorLastName, Image  FROM Book WHERE Title LIKE '%' + @BSearch + '%' ORDER BY Title";
                         command.Parameters.AddWithValue("@BSearch", SearchTerm);
                     }
-
 
 
                     SqlDataReader reader = command.ExecuteReader(); // read reecords
