@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <script src="https://kit.fontawesome.com/fce9e25ee3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/defaultstyles.css" id="styles"/>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-light navbar-expand-sm mb-3">
+            <div class="container">
+                <a class="navbar-brand text-white mr-md-5" asp-area="" asp-page="/Index">LibraryLove</a>
+                <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item nav-option ml-md-auto">
+                            <a class="nav-link text-white" asp-area="" asp-page="/Browser/SignUp">Sign up</a>
+                        </li>
+                        <li class="nav-item nav-option">
+                            <a class="nav-link text-white" asp-area="" asp-page="/Browser/LogIn">Log in</a>
+                        </li>                   
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-white text-center" style="line-height: 30px">
+        <div class="icons">
+            <a style="color: inherit;" asp-page="#"><i class="fa fa-facebook fa-lg p-1"></i></a>
+            <a style="color: inherit;" asp-page="#"><i class="fa fa-instagram fa-lg p-1"></i></a>
+            <a style="color: inherit;" asp-page="#"><i class="fa fa-twitter fa-lg p-1"></i></a>
+        </div>
+        &copy; LibraryLove | 2021
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/theme.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
