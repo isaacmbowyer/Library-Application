@@ -14,7 +14,7 @@
             <h5>@Model.BookRecord.ISBN</h5>
         </div>
         <div class="my-4">
-            <a asp-page="Edit" asp-route-id="@Model.BookRecord.Id" class="btn btn-primary">Edit Book Details</a>
+            <a asp-page="Edit" asp-route-id="@Model.BookRecord.Id" class="btn">Edit Book Details</a>
         </div>
         <div>
             @if (Model.BookRecord.Quantity == -1)

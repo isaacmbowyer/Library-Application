@@ -53,6 +53,8 @@ namespace LibraryLove.Pages.Librarian
         public void OnPost()
         {
             // If the User selected a genre display those revelant books
+
+
             if (BookRecord.Genre != null) 
             {
                 // Connect to Database
