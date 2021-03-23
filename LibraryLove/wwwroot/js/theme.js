@@ -1,9 +1,6 @@
 ﻿// get which theme was selected in local storage 
 let theme = localStorage.getItem('theme');
-if (theme == null) {
-    setTheme('light');
-}
-else if (theme == 'light') {
+if (theme == null || theme == 'light') {
     setTheme('light');
 }
 else {
