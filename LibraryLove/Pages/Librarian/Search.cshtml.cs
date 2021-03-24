@@ -41,16 +41,15 @@ namespace LibraryLove.Pages.Librarian
 
                     command.Connection = conn;
 
-                    // An Valid ISBN is 6 numeric digits long, check that this is is entered
-                    bool isDigits = (SearchTerm.All(char.IsDigit) && SearchTerm.Length == 6);
+                    bool isDigits = (SearchTerm.All(char.IsDigit) && SearchTerm.StartsWith("9"));
                     if (isDigits)
                     {
                         // User wished to search for an ISBN
-                        command.CommandText = @"SELECT Id, Title, AuthorFirstName, AuthorLastName, Image  FROM Book WHERE ISBN = @BSearch";
-                        command.Parameters.AddWithValue("@BSearch", Int32.Parse(SearchTerm));
+                        command.CommandText = @"SELECT Id, Title, AuthorFirstName, AuthorLastName, Image  FROM Book WHERE CONVERT(VARCHAR, ISBN) LIKE + '%' + @BSearch + '%' ORDER BY Title";
+                        command.Parameters.AddWithValue("@BSearch", SearchTerm);
                     }
                     else { 
-                        // User wished to search for a Title 
+                        // User might have wished to search for a Title 
                         command.CommandText = @"SELECT Id, Title, AuthorFirstName, AuthorLastName, Image  FROM Book WHERE Title LIKE '%' + @BSearch + '%' ORDER BY Title";
                         command.Parameters.AddWithValue("@BSearch", SearchTerm);
                     }

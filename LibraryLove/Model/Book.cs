@@ -29,8 +29,8 @@ namespace LibraryLove.Model
 
         [Required(ErrorMessage = "Book ISBN is required")]
         [Display(Name = "Book ISBN")]
-        [RegularExpression(@".{6}",
-            ErrorMessage = "ISBN must be 6 numeric digits long")]
+        [RegularExpression(@"^97.{6}",
+            ErrorMessage = "Invalid ISBN")]
         public int? ISBN { get; set; }
 
         public string Image { get; set; }
