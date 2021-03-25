@@ -29,7 +29,7 @@ namespace LibraryLove.Model
 
         [Required(ErrorMessage = "Book ISBN is required")]
         [Display(Name = "Book ISBN")]
-        [RegularExpression(@"^97.{6}",
+        [RegularExpression(@"^97.{4}",
             ErrorMessage = "Invalid ISBN")]
         public int? ISBN { get; set; }
 

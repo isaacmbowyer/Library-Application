@@ -59,7 +59,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     transition: background 0.2s linear;
-    background-color: var(--bgMain);
+    background-color:   ;
 }
 .footer {
   position: absolute;
@@ -206,4 +206,7 @@ td >.btn{
     color: #f39c12;
 }
 
-
+/* TOOL TIP ISBN*/
+.tooltip-content li {
+    list-style: none;
+}
