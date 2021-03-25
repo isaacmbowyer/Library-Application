@@ -38,7 +38,7 @@ namespace LibraryLove.Model
         [Display(Name = "Book Image")]
         public IFormFile UploadImage { get; set; }
 
-        [Required(ErrorMessage = "Select a Genre from the drop down list")]
+        [Required(ErrorMessage = "Select a Genre")]
         [Display(Name = "Book Genre")]
         public BookGenre? Genre { get; set; }
 

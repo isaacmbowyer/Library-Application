@@ -28,6 +28,12 @@
             </th>
             <th>
                 <label>Actions</label>
+                <div class="custom-tooltip" style="display: inline;">
+                    <i class="fas fa-info-circle fa-lg"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       title="<strong>Add Quantiy:</strong> <br /> Stock up Books (max 20) <br /> <strong>Details:</strong><br /> View which Customers own this book"></i>
+                </div>
             </th>
         </tr>
     </thead>
@@ -74,6 +80,12 @@
 
 
 @section Scripts{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+        });
+    </script>
+
     <script src="~/js/quantity.js"></script>
 }
 

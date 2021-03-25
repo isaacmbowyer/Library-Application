@@ -150,6 +150,17 @@ img{
     background-color: var(--bgMainBook);
 }
 
+.modal-content {
+    background-color: var(--bgModal) !important;
+}
+
+td > .btn {
+    background-color: var(--bgTableBtn);
+}
+
+.btn {
+    background-color: var(--bgBtn)
+}
 
 /*DARK MODE BUTTON*/
 .label-button {
@@ -165,6 +176,8 @@ img{
     transform: scale(1.2);
 }
 
+
+
 .ball {
     width: 22px;
     height: 22px;
@@ -177,24 +190,12 @@ img{
     cursor: pointer;
 }
 
-.modal-content{
-    background-color: var(--bgModal) !important;
-}
-
-td >.btn{
-    background-color: var(--bgTableBtn);
-}
-
-.btn{
-    background-color: var(--bgBtn)
-}
-
 .checkbox {
     opacity: 0;
     position: absolute;
 }
 
-.checkbox:checked + .label-button .ball {
+.checkbox:checked + .label-button .ball-button {
     transform: translateX(24px);
  }
 
@@ -206,7 +207,43 @@ td >.btn{
     color: #f39c12;
 }
 
-/* TOOL TIP ISBN*/
-.tooltip-content li {
-    list-style: none;
+
+/* TOOL TIP */
+.fa-info-circle {
+    color: #0366d6;
+    transition: background 0.9s;
+    cursor: pointer;
 }
+
+.fa-info-circle:hover{
+    color: #55e422;
+}
+
+.tooltip-inner {
+    background-color: #0366d6;
+}
+
+.bs-tooltip-top .arrow::before {
+    border-top-color: #0366d6 !important;
+}
+
+.bs-tooltip-right .arrow::before {
+    border-right-color: #0366d6 !important;
+}
+
+@media(max-width: 767px){
+    .fa-info-circle {
+       transform: translateX(60px) translateY(-72px);
+    }
+}
+
+@media(max-width: 767px) {
+    .fa-info-circle {
+        transform: translateX(60px) translateY(-72px);
+    }
+    th .fa-info-circle {
+        transform: none;
+    }
+}
+
+/*TOOL TIP MODE*/

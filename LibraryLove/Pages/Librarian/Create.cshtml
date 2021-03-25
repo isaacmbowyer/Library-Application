@@ -15,9 +15,7 @@
                 @*@Html.DisplayNameFor(model => model.BookRecord.Title)*@
                 <label asp-for="BookRecord.Title"></label><sup>*</sup>
             </div>
-            <div>
-                <input type="text" asp-for="BookRecord.Title" class="form-control" />
-            </div>
+            <input type="text" asp-for="BookRecord.Title" class="form-control" />
             <span asp-validation-for="BookRecord.Title" class="text-danger"></span>
         </div>
         <br />
@@ -25,9 +23,7 @@
             <div class="mb-1">
                 <label asp-for="BookRecord.AuthorFirstName"></label><sup>*</sup>
             </div>
-            <div>
-                <input type="text" asp-for="BookRecord.AuthorFirstName" class="form-control" />
-            </div>
+            <input type="text" asp-for="BookRecord.AuthorFirstName" class="form-control" />
             <span asp-validation-for="BookRecord.AuthorFirstName" class="text-danger"></span>
         </div>
         <br />
@@ -35,35 +31,31 @@
             <div class="mb-1">
                 <label asp-for="BookRecord.AuthorLastName"></label><sup>*</sup>
             </div>
-            <div>
-                <input type="text" asp-for="BookRecord.AuthorLastName" class="form-control" />
-            </div>
+            <input type="text" asp-for="BookRecord.AuthorLastName" class="form-control" />
             <span asp-validation-for="BookRecord.AuthorLastName" class="text-danger"></span>
         </div>
         <br />
         <div class="form-group">
-            <div class="mb-1">
-                <label asp-for="BookRecord.ISBN"></label><sup>*</sup>
+            <label asp-for="BookRecord.ISBN"></label><sup>*</sup>
+            <div class="custom-tooltip" style="display: inline;">
+                <i class="fas fa-info-circle fa-lg"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="ISBN must: <br /> Contain 6 numeric digits <br /> Start with 97 <br/> Be Unique"></i>
             </div>
-            <div>
-                <input type="number" asp-for="BookRecord.ISBN" class="form-control" />
-            </div>
+            <input type="number" asp-for="BookRecord.ISBN" class="form-control" />
             <span asp-validation-for="BookRecord.ISBN" class="text-danger"></span>
-            <ul>
-                <li>
-                    <div class="tooltip-content">
-                        <h2>Lorem Ipsum is simply dummy text</h2>
-                        <p> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                        when an unknown printer took a galley of type and scrambled it to make a type 
-                        specimen book.</p>
-                    </div>
-                </li>
-            </ul>
         </div>
         <br />
         <div class="form-group row">
             <div class="mb-1 col-12">
                 <label asp-for="BookRecord.Genre"></label><sup>*</sup>
+                <div class="custom-tooltip" style="display: inline;">
+                    <i class="fas fa-info-circle fa-lg"
+                       data-toggle="tooltip"
+                       data-placement="top"
+                       title="Select a Genre from the list"></i>
+                </div>
             </div>
             <div class="col-12">
                 <select asp-for="BookRecord.Genre"
@@ -83,19 +75,24 @@
             </div>
             <span asp-validation-for="BookRecord.UploadImage" class="text-danger"></span>
         </div>
-
         <br />
-
         <div class="form-group">
-            <div>
-                <input type="submit" value="Add Book Collection" class="btn btn-primary form-control" />
-            </div>
+            <input type="submit" value="Add Book Collection" class="btn btn-primary form-control" />
         </div>
     </form>
+
+
 </div>
 
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <!---Code to display the filename to the user-->
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+        });
+    </script>
+
     <script src="~/js/fileUpload.js"></script>
+
 }
