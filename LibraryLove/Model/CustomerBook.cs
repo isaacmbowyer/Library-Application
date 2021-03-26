@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LibraryLove.Model
 {
-    public class LoanedBook
+    public class CustomerBook
     {        
         [Display(Name = "Username")]
         public string CustomerUsername { get; set; }
@@ -20,9 +20,7 @@ namespace LibraryLove.Model
         [Display(Name = "Book Title")]
         public string BookTitle { get; set; }
 
-
-        [Display(Name = "Date Loaned")]
-        public DateTime LoanedDate { get; set; }
+        public DateTime Date { get; set; }
 
         [Display(Name = "Due Return Date")]
         public DateTime ReturnDate { get; set; }

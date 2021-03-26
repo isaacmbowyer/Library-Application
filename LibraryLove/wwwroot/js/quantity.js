@@ -13,6 +13,10 @@ document.querySelectorAll('.addQuantityBtn').forEach(btn => {
         let quantityElement = event.target.parentElement.previousElementSibling;
         currentQuantity = quantityElement.innerHTML;
 
+        if (currentQuantity == "Pre Loan") {
+            currentQuantity = 0;
+        }
+
         // set the current quantity in the form 
         document.querySelector('.hiddenQuantityBooks').setAttribute('value', currentQuantity);
     });

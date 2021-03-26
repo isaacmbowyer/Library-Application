@@ -43,8 +43,8 @@ namespace LibraryLove.Pages.Librarian
                     record.ISBN = reader.GetInt32(2);
                     if (reader.IsDBNull(3))
                     {
-                        // Quantity of this book is 0 
-                        record.Quantity = 0;
+                        // Book only for pre-loan
+                        record.Quantity = null;
                     }
                     else
                     {

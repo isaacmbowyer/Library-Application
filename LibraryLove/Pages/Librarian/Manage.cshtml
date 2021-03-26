@@ -40,15 +40,22 @@
     <tbody>
         @foreach (var item in Model.Books)
         {
-            <tr>
-                <td> @item.Title </td>
-                <td> @item.ISBN</td>
-                <td class="quantity"> @item.Quantity </td>
-                <td>
-                    <button book-id="@item.Id" class="addQuantityBtn btn" data-toggle="modal" data-target="#quantityModal">Add Quantity</button>
-                    <a asp-page="Details" asp-route-id="@item.Id" class="btn ml-md-2 ml-sm-0 mt-md-0 mt-3 " style="width: 105.54px;">Details</a>
-                </td>
-            </tr>
+        <tr>
+            <td> @item.Title </td>
+            <td> @item.ISBN</td>
+            @if(item.Quantity == null){
+                <td class="quantity">Pre Loan</td>
+            }
+            else{
+              <td class="quantity"> @item.Quantity</td>
+            }
+         
+            <td>
+                <button book-id="@item.Id" class="addQuantityBtn btn" data-toggle="modal" data-target="#quantityModal">Add Quantity</button>
+                <a asp-page="Details" asp-route-id="@item.Id" asp-route-quantity="@item.Quantity" class="btn ml-md-2 ml-sm-0 mt-md-0 mt-3 " style="width: 105.54px;">Details</a>
+
+            </td>
+        </tr>
         }
 
     </tbody>
