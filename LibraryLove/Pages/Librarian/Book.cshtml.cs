@@ -44,8 +44,8 @@ namespace LibraryLove.Pages.Librarian
 
                     if (reader.IsDBNull(7))
                     {
-                        // Let the Librarian know that this book is new in the system 
-                        BookRecord.Quantity = -1;
+                        // Let the Librarian know that this book is for pre-loan only
+                        BookRecord.Quantity = null;
                     }
                     else
                     {

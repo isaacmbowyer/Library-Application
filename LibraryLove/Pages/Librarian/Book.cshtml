@@ -18,9 +18,9 @@
             <a asp-page="Edit" asp-route-id="@Model.BookRecord.Id" class="btn">Edit Book Details</a>
         </div>
         <div>
-            @if (Model.BookRecord.Quantity == -1)
+            @if (Model.BookRecord.Quantity == null)
             {
-                <p>This Book has only just been released for the Library</p>
+                <p>This Book is for pre-loan only</p>
             }
             else if (Model.BookRecord.Quantity == 0)
             {

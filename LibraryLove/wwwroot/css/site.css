@@ -59,7 +59,7 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     transition: background 0.2s linear;
-    background-color:   ;
+    background-color:  var(--bgMain);
 }
 .footer {
   position: absolute;
@@ -195,7 +195,7 @@ td > .btn {
     position: absolute;
 }
 
-.checkbox:checked + .label-button .ball-button {
+.checkbox:checked + .label-button .ball{
     transform: translateX(24px);
  }
 
@@ -231,19 +231,11 @@ td > .btn {
     border-right-color: #0366d6 !important;
 }
 
-@media(max-width: 767px){
-    .fa-info-circle {
-       transform: translateX(60px) translateY(-72px);
-    }
-}
 
 @media(max-width: 767px) {
-    .fa-info-circle {
+    .view-info-circle {
         transform: translateX(60px) translateY(-72px);
-    }
-    th .fa-info-circle {
-        transform: none;
     }
 }
 
-/*TOOL TIP MODE*/
+

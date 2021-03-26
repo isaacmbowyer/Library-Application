@@ -42,7 +42,7 @@ namespace LibraryLove.Model
         [Display(Name = "Book Genre")]
         public BookGenre? Genre { get; set; }
 
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
        
         public string GetFullName()
         {
