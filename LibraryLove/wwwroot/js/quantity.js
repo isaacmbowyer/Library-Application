@@ -2,6 +2,9 @@
 
 let selectedBookId;
 let currentQuantity;
+let quantityElement
+let preLoanedBook = false; 
+
 
 document.querySelectorAll('.addQuantityBtn').forEach(btn => {
     btn.addEventListener('click', event => {
@@ -10,11 +13,13 @@ document.querySelectorAll('.addQuantityBtn').forEach(btn => {
         document.querySelector('.hiddenBookId').setAttribute('value', selectedBookId);
 
         // get the current quantity
-        let quantityElement = event.target.parentElement.previousElementSibling;
+        quantityElement = event.target.parentElement.previousElementSibling;
         currentQuantity = quantityElement.innerHTML;
 
+        // see if the book is pre loaned only  or not
         if (currentQuantity == "Pre Loan") {
-            currentQuantity = 0;
+            currentQuantity = 0;  // by default there are no books
+            preLoanedBook = true; 
         }
 
         // set the current quantity in the form 
@@ -45,7 +50,12 @@ document.querySelector('.submit').addEventListener('click', event => {
             errorMessage.innerHTML = "Quantity of a Book Collection cannot exceed 20"
         }
         else {
-           // change the quantity - total has not reached 20
+            if (preLoanedBook) {
+                // if the book is PreLoaned Only, we need to tell the server -> set current quantity to null
+                document.querySelector('.hiddenQuantityBooks').setAttribute('value', null);
+            }
+
+            // change the quantity - total has not reached 20
             document.querySelector('form').submit();
 
         }

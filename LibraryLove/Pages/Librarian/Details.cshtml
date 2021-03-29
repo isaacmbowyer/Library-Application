@@ -8,8 +8,47 @@
 
 
 <div class="container">
+    @if (Model.PreLoanedBooks.Count != 0)
+    {
+        <p class="lead">Pre-Loaned Books</p>
+
+        <table class="table table-striped border">
+            <thead class="table-secondary">
+                <tr>
+                    <th>
+                        <label asp-for="PreLoanedBooks.FirstOrDefault().CustomerUsername"></label>
+                    </th>
+                    <th>
+                        <label asp-for="PreLoanedBooks.FirstOrDefault().CustomerFirstName"></label>
+                    </th>
+                    <th>
+                        <label asp-for="PreLoanedBooks.FirstOrDefault().CustomerLastName"></label>
+                    </th>
+                    <th>
+                        <label asp-for="PreLoanedBooks.FirstOrDefault().PreLoanedDate"></label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PreLoanedBooks)
+                {
+                    <tr>
+                        <td> @item.CustomerUsername </td>
+                        <td> @item.CustomerFirstName</td>
+                        <td> @item.CustomerLastName</td>
+                        <td>@item.PreLoanedDate.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+
+
     @if (Model.LoanedBooks.Count != 0)
     {
+        <p class="lead">Loaned Books</p>
+
         <table class="table table-striped border">
             <thead class="table-secondary">
                 <tr>
@@ -22,75 +61,50 @@
                     <th>
                         <label asp-for="LoanedBooks.FirstOrDefault().CustomerLastName"></label>
                     </th>
-
-                    @if (Model.Quantity != null)
-                    {
-                        // The Book is not for pre-order get the date the customer loaned the book and the due return date
-                        <th>
-                            <label>Date Loaned</label>
-                        </th>
-                        <th>
-                            <label asp-for="LoanedBooks.FirstOrDefault().ReturnDate"></label>
-                        </th>
-                     }
-                     else
-                     {
-                        // get the date the customer pre-loaned the book as it is pre-loan only
-                        <th>
-                            <label>Date Pre-Loaned</label>
-                         </th>
-                     }
+                    <th>
+                        <label asp-for="LoanedBooks.FirstOrDefault().LoanedDate"></label>
+                    </th>
+                    <th>
+                        <label asp-for="LoanedBooks.FirstOrDefault().ReturnDate"></label>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model.LoanedBooks)
                 {
-                <tr>
-                    <td> @item.CustomerUsername </td>
-                    <td> @item.CustomerFirstName</td>
-                    <td> @item.CustomerLastName</td>
-                 
-                    @if (Model.Quantity != null)
-                    {
-                        // If the book is not for pre loan then get the date the book was loaned and the date it should be returned
+                    <tr>
+                        <td> @item.CustomerUsername </td>
+                        <td> @item.CustomerFirstName</td>
+                        <td> @item.CustomerLastName</td>
 
                         @if (item.ReturnDate > currentDate)
                         {
                             // Customer still has time to read their book
-                            <td class="text-success">@item.Date.ToString("dd/MM/yyyy")</td>
+                            <td class="text-success">@item.LoanedDate.ToString("dd/MM/yyyy")</td>
 
                         }
                         else
                         {
                             // Customer has penalty on their book
-                            <td class="text-danger">@item.Date.ToString("dd/MM/yyyy")</td>
+                            <td class="text-danger">@item.LoanedDate.ToString("dd/MM/yyyy")</td>
                         }
                         <td>@item.ReturnDate.ToString("dd/MM/yyyy")</td>
-                    }
-                    else
-                    {
-                        // Get the date the customer loaned the book
-
-                        <td>@item.Date.ToString("dd/MM/yyyy") </td>
-                    }
-
-                </tr>
+                    </tr>
                 }
             </tbody>
         </table>
 
     }
-    else
+
+    @if (Model.Quantity == null && Model.PreLoanedBooks.Count == 0)
     {
-        @if (Model.Quantity != null)
-        {
-            <p class="lead">No Customers have loaned this Book</p>
-        }
-        else
-        {
-            <p class="lead">No Customers have pre-ordered this Book</p>
-        }
+        <p class="lead">No Customers have pre-loaned this Book</p>
     }
+    else if (Model.Quantity != null && Model.LoanedBooks.Count == 0)
+    {
+        <p class="lead">No Customers have loaned this Book</p>
+    }
+
 
     <a asp-page="Manage" class="btn btn-primary">Back to Book List</a>
 </div>

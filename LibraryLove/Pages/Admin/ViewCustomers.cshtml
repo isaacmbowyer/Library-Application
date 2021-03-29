@@ -1,0 +1,75 @@
+﻿@page
+@model AdminProject.Pages.ViewCustomers.IndexModel
+@{
+    ViewData["Title"] = "View Customers";
+}
+
+<h1>Customers table</h1>
+
+<form method="get">
+    <div class="form-group">
+        <label asp-for="SearchData">Search users by Username</label>
+        <input class="form-control" asp-for="SearchData" />
+    </div>
+    <button type="submit" class="btn form-control">Search</button>
+</form>
+
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th>
+                @*Html.DisplayNameFor(model => model.UserList[1].Username)*@
+                <label asp-for="UserList.FirstOrDefault().Username"></label>
+            </th>
+            <th>
+                @*Html.DisplayNameFor(model => model.UserList[2].FirstName)*@
+                <label asp-for="UserList.FirstOrDefault().FirstName"></label>
+            </th>
+            <th>
+                @*Html.DisplayNameFor(model => model.UserList[3].LastName)*@
+                <label asp-for="UserList.FirstOrDefault().LastName"></label>
+            </th>
+            <th>
+                @*Html.DisplayNameFor(model => model.UserList[4].Email)*@
+                <label asp-for="UserList.FirstOrDefault().Email"></label>
+            </th>
+            <th>
+                @*Html.DisplayNameFor(model => model.UserList[6].Role)*@
+                <label asp-for="UserList.FirstOrDefault().Role"></label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UserList)
+        {
+            <tr>
+                <td>
+                    @*Html.DisplayerFor(model => item.Username)*@
+                    @item.Username
+                </td>
+                <td>
+                    @*Html.DisplayerFor(model => item.FirstName)*@
+                    @item.FirstName
+                </td>
+                <td>
+                    @*Html.DisplayerFor(model => item.LastName)*@
+                    @item.LastName
+                </td>
+                <td>
+                    @*Html.DisplayerFor(model => item.Email)*@
+                    @item.Email
+                </td>
+                <td>
+                    @*Html.DisplayerFor(model => item.Role)*@
+                    @item.Role
+                </td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Edit</a> |
+
+                    <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-danger btn sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

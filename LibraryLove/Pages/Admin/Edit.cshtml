@@ -1,0 +1,62 @@
+﻿@page
+@model AdminProject.Pages.Members.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Employee</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AllMembers.Id" />
+            <div class="form-group">
+                <label asp-for="AllMembers.Username" class="control-label"></label>
+                <input asp-for="AllMembers.Username" class="form-control" />
+                <span asp-validation-for="AllMembers.Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllMembers.FirstName" class="control-label"></label>
+                <input asp-for="AllMembers.FirstName" class="form-control" />
+                <span asp-validation-for="AllMembers.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllMembers.LastName" class="control-label"></label>
+                <input asp-for="AllMembers.LastName" class="form-control" />
+                <span asp-validation-for="AllMembers.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllMembers.Email" class="control-label"></label>
+                <input asp-for="AllMembers.Email" class="form-control" />
+                <span asp-validation-for="AllMembers.Email" class="text-danger"></span>
+            </div>
+            <div class= "form-group">
+               
+                <input type ="hidden" asp-for= "AllMembers.Password" class= "form-control"/>
+                <span asp-validation-for= "AllMembers.Password" class= "text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllMembers.Role" class="control-label"></label>
+                <input list="Roles" asp-for="AllMembers.Role" class="form-control" />
+                <datalist id="Roles">
+                    <option value="Librarian"></option>
+                    <option value="Admin"></option>
+                </datalist>
+                <span asp-validation-for="AllMembers.Role" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -9,7 +9,7 @@ namespace LibraryLove.Model
     public class QuantityBook
     {
         public int BookId { get; set; }
-        public int CurrentBooks { get; set; }
+        public int? CurrentBooks { get; set; }
 
         [Display(Name = "Number of Books to add")]
         public int AddedBooks{ get; set; }
