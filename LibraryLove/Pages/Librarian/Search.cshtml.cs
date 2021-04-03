@@ -15,7 +15,7 @@ namespace LibraryLove.Pages.Librarian
         [BindProperty]
         public string SearchTerm { get; set; }
 
-        public int NoMatch { get; set; } 
+        public bool NoMatch { get; set; } 
 
         [BindProperty(SupportsGet = true)]
         public List<Book> Books { get; set; }
@@ -78,7 +78,11 @@ namespace LibraryLove.Pages.Librarian
  
             if(Books.Count == 0)
             {
-                 NoMatch = -1;
+                 NoMatch = true;
+            }
+            else
+            {
+                NoMatch = false;
             }
 
         }

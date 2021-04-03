@@ -3,13 +3,133 @@
 @{
 }
 
-<p class="lead">Theme Mode:</p>
-<div class="mode">
+<p class="lead">
+    Theme Mode: <i class="fas fa-info-circle fa-lg"
+    data-toggle="tooltip"
+    data-placement="right"
+    title="Change the styles of a website. <br /> <strong>This is saved as cookies </strong>"></i>
+</p>
+<div class="mode mb-3">
     <input type="checkbox" class="checkbox" id="checkbox" />
     <label for="checkbox" class="label-button">
         <i class="fas fa-moon"></i>
         <i class="fas fa-sun"></i>
-        <div class="ball"></div>
+        <div class="mode-toggler"></div>
     </label>
 </div>
 
+
+
+<p class="lead">Details:</p>
+<form method="post">
+    <input type="hidden" asp-for="member.Id" />
+    <input type="hidden" asp-for="member.MemberRole" />
+    <div class="form-group">
+        <div class="mb-1">
+            <label asp-for="member.Username"></label><sup>*</sup>
+        </div>
+        <input type="text" asp-for="member.Username" class="form-control" />
+        <span asp-validation-for="member.Username" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="mb-1">
+            <label asp-for="member.FirstName"></label><sup>*</sup>
+        </div>
+        <input type="text" asp-for="member.FirstName" class="form-control" />
+        <span asp-validation-for="member.FirstName" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="mb-1">
+            <label asp-for="member.LastName"></label><sup>*</sup>
+        </div>
+        <input type="text" asp-for="member.LastName" class="form-control" />
+        <span asp-validation-for="member.LastName" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="member.Email"></label><sup>*</sup>
+        <input type="email" asp-for="member.Email" class="form-control" />
+        <span asp-validation-for="member.Email" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group row">
+        <div class="mb-1 col-12">
+            <label asp-for="member.SecurityQuestion"></label><sup>*</sup>
+            <div class="custom-tooltip" style="display: inline;">
+                <i class="fas fa-info-circle fa-lg"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Select a Security Question from the list. This is used for additional security"></i>
+            </div>
+        </div>
+        <div class="col-12">
+            @if (Model.member.SecurityQuestion == null)
+            {
+                <select asp-for="member.SecurityQuestion"
+                        asp-items="@Html.GetEnumSelectList<LibraryLove.Model.Security>()"
+                        class="custom-select mr-sm-2">
+                    <option value="">Please Select</option>
+                </select>
+            }
+            else
+            {
+                <select asp-for="member.SecurityQuestion"
+                        asp-items="@Html.GetEnumSelectList<LibraryLove.Model.Security>()"
+                        class="custom-select mr-sm-2">
+                </select>
+            }
+            <span asp-validation-for="member.SecurityQuestion" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="mb-1">
+            <label asp-for="member.SecurityAnswer"></label><sup>*</sup>
+        </div>
+        <input type="text" asp-for="member.SecurityAnswer" class="form-control" />
+        <span asp-validation-for="member.SecurityAnswer" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group mb-1">
+        <input type="submit" value="Edit Details" class="btn form-control" />
+    </div>
+    <div class="form-group">
+        <button class="btn form-control" data-toggle="modal" data-target="#deleteModal" style="background: red !important;">Delete Account</button>
+    </div>
+</form>
+
+
+
+
+
+<div id="deleteModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Are you sure you want to delete your account?</h4>
+                <button type="button" class="close" data-dismiss="modal">x</button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <input type="hidden" asp-for="Id" class="hiddenUserId" />
+                    <p>Once Submitted this cannot be undone</p>
+                    <input asp-action="Delete" type="submit" value="Delete My Account" class="btn form-control submit" style="background: red !important;" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+        });
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

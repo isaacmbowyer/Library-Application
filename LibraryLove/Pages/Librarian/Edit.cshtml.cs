@@ -40,7 +40,9 @@ namespace LibraryLove.Pages.Librarian
             using (SqlCommand command = new SqlCommand())
             {
                 command.Connection = conn;
-                command.CommandText = @"SELECT * FROM BOOK WHERE Id = " + id;
+                command.CommandText = @"SELECT * FROM BOOK WHERE Id = @BId";
+                command.Parameters.AddWithValue("@BId", id);
+
 
                 SqlDataReader reader = command.ExecuteReader(); 
 
@@ -60,7 +62,7 @@ namespace LibraryLove.Pages.Librarian
             }
         }
 
-        public IActionResult OnPost(int? id)
+        public IActionResult OnPost()
         {
             if (ModelState.IsValid)
             {
@@ -76,8 +78,7 @@ namespace LibraryLove.Pages.Librarian
 
                     command.Connection = conn;
                     command.CommandText = @"UPDATE Book SET Title = @BTitle, AuthorFirstName = @AFName, AuthorLastName = @ALName, ISBN = @BISBN, Image = @BImage, Genre = @BGenre WHERE Id = @BId";
-                    command.Parameters.AddWithValue("@BId", id);
-
+                    command.Parameters.AddWithValue("@BId", BookRecord.Id);
                     // Edit the Book details to database
                     command.Parameters.AddWithValue("@BTitle", BookRecord.Title);
                     command.Parameters.AddWithValue("@AFName", BookRecord.AuthorFirstName);
@@ -110,13 +111,12 @@ namespace LibraryLove.Pages.Librarian
                     // Update the book object inside the database
                     command.ExecuteNonQuery();
 
-                    return RedirectToPage("Book", "Get", new { id = id });
+                    return RedirectToPage("Book", "Get", new { id = BookRecord.Id });
                 }
             }
-            else
-            {
-                return Page();
-            }
+
+            return Page();
+            
         }
 
     }

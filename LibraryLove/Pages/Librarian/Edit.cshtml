@@ -42,7 +42,7 @@
                 <i class="fas fa-info-circle fa-lg"
                    data-toggle="tooltip"
                    data-placement="top"
-                   title="<strong>ISBN Must:</strong> <br /> Contain 6 numeric digits <br /> Start with 97 <br/> Be Uniquke"></i>
+                   title="<strong>ISBN Must:</strong> <br /> Contain 6 numeric digits <br /> Start with 97 <br/> Be Unique"></i>
             </div>
             <input type="number" asp-for="BookRecord.ISBN" class="form-control" />
             <span asp-validation-for="BookRecord.ISBN" class="text-danger"></span>
@@ -78,7 +78,7 @@
 
         <br />
         <div class="form-group">
-            <input type="submit" asp-route-id="@Model.BookRecord.Id" value="Edit Book Details" class="btn btn-primary form-control" />
+            <input type="submit" value="Edit Book Details" class="btn form-control" />
         </div>
     </form>
 </div>

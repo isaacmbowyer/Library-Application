@@ -17,8 +17,8 @@ document.querySelectorAll('.addQuantityBtn').forEach(btn => {
         currentQuantity = quantityElement.innerHTML;
 
         // see if the book is pre loaned only  or not
-        if (currentQuantity == "Pre Loan") {
-            currentQuantity = 0;  // by default there are no books
+        if (currentQuantity == 0) {
+            currentQuantity = 0;  // there are no books
             preLoanedBook = true; 
         }
 
@@ -52,7 +52,7 @@ document.querySelector('.submit').addEventListener('click', event => {
         else {
             if (preLoanedBook) {
                 // if the book is PreLoaned Only, we need to tell the server -> set current quantity to null
-                document.querySelector('.hiddenQuantityBooks').setAttribute('value', null);
+                //document.querySelector('.hiddenQuantityBooks').setAttribute('value', null);
             }
 
             // change the quantity - total has not reached 20

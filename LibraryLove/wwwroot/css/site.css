@@ -107,7 +107,7 @@ td{
     color: var(--tableText);
 }
 
-thead{
+th{
     background-color: var(--bgTable);
 }
 
@@ -155,11 +155,11 @@ img{
 }
 
 td > .btn {
-    background-color: var(--bgTableBtn);
+    background-color: var(--bgTableBtn) !important;
 }
 
 .btn {
-    background-color: var(--bgBtn)
+    background-color: var(--bgBtn) !important;
 }
 
 /*DARK MODE BUTTON*/
@@ -178,7 +178,7 @@ td > .btn {
 
 
 
-.ball {
+.mode-toggler {
     width: 22px;
     height: 22px;
     position: absolute;
@@ -195,7 +195,7 @@ td > .btn {
     position: absolute;
 }
 
-.checkbox:checked + .label-button .ball{
+.checkbox:checked + .label-button .mode-toggler{
     transform: translateX(24px);
  }
 
@@ -232,10 +232,24 @@ td > .btn {
 }
 
 
+
 @media(max-width: 767px) {
     .view-info-circle {
         transform: translateX(60px) translateY(-72px);
     }
+    .btn-edit{
+        width: 62.93px !important;
+    }
 }
 
 
+/*TABLES*/
+.table-box{
+    height: 400px;
+    overflow: auto;
+}
+
+
+.btn-edit {
+    width: 71.63px;
+}

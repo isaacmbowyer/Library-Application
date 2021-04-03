@@ -11,8 +11,6 @@
 </div>
     
 
-
-
 <!--LIST OF BOOKS TABLE -->
 <table id="bookTable" class="table table-striped border">
     <thead>
@@ -43,9 +41,9 @@
         <tr>
             <td> @item.Title </td>
             <td> @item.ISBN</td>
-            @if (item.Quantity == null)
+            @if (item.Quantity == null || item.Quantity == 0)
             {
-                <td class="quantity">Pre Loan</td>
+                <td class="quantity">0</td>  // no books
             }
             else
             {

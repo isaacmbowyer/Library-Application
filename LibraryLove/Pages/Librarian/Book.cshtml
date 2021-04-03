@@ -1,5 +1,5 @@
 ﻿@page
-@model LibraryLove.Pages.Librarian.BookModel
+@model LibraryLove.Pages.Customer.BookModel
 @{
     ViewData["Title"] = Model.BookRecord.Title + " Details";
 }
@@ -24,7 +24,7 @@
             }
             else if (Model.BookRecord.Quantity == 0)
             {
-                <p>This Book is currently out of stock</p>
+                <p>This Book is currently out of stock.</p>
             }
             else if (Model.BookRecord.Quantity == 1)
             {

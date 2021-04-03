@@ -1,50 +1,89 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using AdminProject.Models;
-using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using LibraryLove.Model;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AdminProject.Pages.Members
+namespace LibraryLove.Pages.Admin
 {
-
     public class CreateModel : PageModel
     {
-        [BindProperty]
-        public AllMembers UserRecord { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public CreateMember record { get; set; }
 
         public void OnGet()
         {
-
         }
+
         public IActionResult OnPost()
         {
-           
-            string dbconnection = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AllMembers; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
-            SqlConnection con = new SqlConnection(dbconnection);
-            con.Open();//Establish a connection to the database and table
-
-            using (SqlCommand command = new SqlCommand())//Allows us to use SQL commands in the code
+            if (ModelState.IsValid)
             {
-                command.Connection = con;
-                command.CommandText = @"INSERT INTO UsersTable (Username, FirstName, LastName, Email, Password, Role) VALUES (@UName, @FName, @LName, @Email, @Pass, @Role)";//Insert everything they enter into Users table
+                // Connect to Database
+                DBConnection dbstring = new DBConnection();
+                string DbConnection = dbstring.DbString();
+                SqlConnection conn = new SqlConnection(DbConnection);
+                conn.Open();
 
-                if (ModelState.IsValid)
+
+                using (SqlCommand command = new SqlCommand())
                 {
-                    command.Parameters.AddWithValue("@UName", UserRecord.Username);
-                    command.Parameters.AddWithValue("@FName", UserRecord.FirstName);
-                    command.Parameters.AddWithValue("@LName", UserRecord.LastName);//The data they enter and their fields:
-                    command.Parameters.AddWithValue("@Email", UserRecord.Email);
-                    command.Parameters.AddWithValue("@Pass", UserRecord.Password);
-                    command.Parameters.AddWithValue("@Role", UserRecord.Role);
-                }
-                else
-                {
-                    return Page();//If it is not validated correctly, reload the page
+                    command.Connection = conn;
+                    command.CommandText = @"INSERT INTO Member (Username, FirstName, LastName, Email, Password, Role) VALUES (@User, @FName, @LName, @UEmail, @Pass, @URole)";
+
+
+                    // Add book to database
+                    command.Parameters.AddWithValue("@User", record.Username);
+                    command.Parameters.AddWithValue("@FName", record.FirstName);
+                    command.Parameters.AddWithValue("@LName", record.LastName);
+                    command.Parameters.AddWithValue("@UEmail", record.Email);
+
+                    // Encypt the Password
+
+                    // Chand, M. (2020, April 16). Compute SHA256 Hash In C#. Retrieved from c-sharpcorner: https://www.c-sharpcorner.com/article/compute-sha256-hash-in-c-sharp/
+                    string HashedPassword = "";
+
+                    using (SHA256 sha256Hash = SHA256.Create())
+                    {
+                        // Get a Byte array
+                        byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(record.Password));
+
+                        // Convert Byte array to string 
+                        StringBuilder builder = new StringBuilder();
+                        for (int i = 0; i < bytes.Length; i++)
+                        {
+                            builder.Append(bytes[i].ToString("x2"));
+                        }
+
+                        HashedPassword = builder.ToString();
+
+                    }
+
+                    command.Parameters.AddWithValue("@Pass", HashedPassword);
+
+
+                    string role = record.MemberRole.ToString();
+                    command.Parameters.AddWithValue("@URole", role);
+
+
+                    command.ExecuteNonQuery();
                 }
 
-                command.ExecuteNonQuery();
+                // Depending on the creation of an employee depends on the page they are shown
+                return RedirectToPage("AdminIndex");
             }
-            return RedirectToPage("Index");
+
+            return Page();
+
         }
     }
 }
+

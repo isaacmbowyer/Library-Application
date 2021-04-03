@@ -1,4 +1,5 @@
 ﻿using LibraryLove.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -21,9 +22,12 @@ namespace LibraryLove.Pages
             _logger = logger;
         }
 
+
         public void OnGet()
         {
-          
+            HttpContext.Session.Clear(); // clear http context
+
+
         }
 
        

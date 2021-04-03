@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar navbar-light navbar-expand-sm mb-3">
             <div class="container">
-                <a class="navbar-brand text-white mr-md-5" asp-area="" asp-page="/Index">LibraryLove</a>
+                <a class="navbar-brand text-white mr-md-5" asp-area="" asp-page="Index">LibraryLove</a>
                 <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,9 +34,8 @@
                                 <i class="fas fa-user mr-2"></i>User Settings
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" asp-page="#">View Account</a>
-                                <a class="dropdown-item" asp-area="" asp-page="/User/EditProfile">Edit Account</a>
-                                <a class="dropdown-item" asp-page="#">Payment Settings</a>
+                                <a class="dropdown-item" asp-page="/User/ViewAccount">View Account</a>
+                                <a class="dropdown-item" asp-area="/User/EditProfile" asp-page="/User/EditProfile">Edit Account</a>
                                 <a class="dropdown-item font-weight-bold border-top" asp-page="/Index">Log out</a>
                             </div>
                         </li>

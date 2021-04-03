@@ -1,0 +1,77 @@
+﻿@page
+@model LibraryLove.Pages.Admin.EditUserModel
+@{
+}
+
+<p class="lead">Edit User</p>
+
+<form method="post">
+    <input type="hidden" asp-for="record.Id" />
+    <div class="form-group">
+        <div class="mb-1">
+            <label asp-for="record.Username"></label><sup>*</sup>
+        </div>
+        <input type="text" asp-for="record.Username" class="form-control" />
+        <span asp-validation-for="record.Username" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="mb-1">
+            <label asp-for="record.FirstName"></label><sup>*</sup>
+        </div>
+        <input type="text" asp-for="record.FirstName" class="form-control" />
+        <span asp-validation-for="record.FirstName" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="mb-1">
+            <label asp-for="record.LastName"></label><sup>*</sup>
+        </div>
+        <input type="text" asp-for="record.LastName" class="form-control" />
+        <span asp-validation-for="record.LastName" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="mb-1">
+            <label asp-for="record.Email"></label><sup>*</sup>
+        </div>
+        <input type="email" asp-for="record.Email" class="form-control" />
+        <span asp-validation-for="record.Email" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group row">
+        <div class="mb-1 col-12">
+            <label asp-for="record.MemberRole"></label><sup>*</sup>
+            <div class="custom-tooltip" style="display: inline;">
+                <i class="fas fa-info-circle fa-lg"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Select a Role from the list"></i>
+            </div>
+        </div>
+        <div class="col-12">
+            <select asp-for="record.MemberRole"
+                    asp-items="@Html.GetEnumSelectList<LibraryLove.Model.UserRole>()"
+                    class="custom-select mr-sm-2">
+            </select>
+            <span asp-validation-for="record.MemberRole" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        <input type="submit" value="Edit User" class="btn btn-primary form-control" />
+    </div>
+</form>
+
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+        });
+    </script>
+
+}

@@ -1,0 +1,49 @@
+﻿@page
+@model LibraryLove.Pages.User.ViewAccountModel
+@{
+}
+
+<h3>Account Details</h3>
+
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.member.Username)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.member.Username)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.member.FirstName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.member.FirstName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.member.LastName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.member.LastName)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.member.Email)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.member.Email)
+    </dd>
+    @if (Model.member.SecurityQuestion != null)
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.member.SecurityQuestion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.member.SecurityQuestion)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.member.SecurityAnswer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.member.SecurityAnswer)
+        </dd>
+    }    
+
+</dl>

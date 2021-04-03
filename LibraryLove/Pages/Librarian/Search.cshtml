@@ -7,7 +7,7 @@
     <div class="form-group">
         <label asp-for="SearchTerm">Search Book by ISBN or Title</label>
         <input class="form-control" asp-for="SearchTerm" />
-        @if(Model.NoMatch == -1)
+        @if(Model.NoMatch == true)
             {
                 <span class="text-danger">This Book could not be found</span>
             }

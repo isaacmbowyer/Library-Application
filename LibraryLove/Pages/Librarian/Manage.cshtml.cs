@@ -79,59 +79,69 @@ namespace LibraryLove.Pages.Librarian
             {
                 command.Connection = conn;
                
-
-                // First read which customers have pre-loaned the book as they will instantly loan the book
-                command.CommandText = @"SELECT TOP(@BFirst) UsernameId FROM PreLoanedBook WHERE BookId = @BId ORDER BY DatePreLoaned";
-                command.Parameters.AddWithValue("@BFirst", BookRecord.AddedBooks);
-                command.Parameters.AddWithValue("@BId", BookRecord.BookId);
-
-                SqlDataReader reader = command.ExecuteReader(); // read records 
-
-                PreLoanedBooks = new List<PreLoanedBook>();
-
-                // Get each username who pre-loan the book
-                while (reader.Read())
+                if(BookRecord.CurrentBooks == 0)
                 {
-                    PreLoanedBook PreLoanedBook = new PreLoanedBook();
-                    PreLoanedBook.CustomerId = reader.GetInt32(0);
+                    // First read PreloanBook Table as we need to know if any customers have preloaned the book  as they will instantly loan the book
+                    command.CommandText = @"SELECT TOP(@BFirst) UsernameId FROM PreLoanedBook WHERE BookId = @BId ORDER BY DatePreLoaned";
+                    command.Parameters.AddWithValue("@BFirst", BookRecord.AddedBooks);
+                    command.Parameters.AddWithValue("@BId", BookRecord.BookId);
 
-                    PreLoanedBooks.Add(PreLoanedBook);
-                }
+                    SqlDataReader reader = command.ExecuteReader(); // read records 
 
-                reader.Close();
+                    PreLoanedBooks = new List<PreLoanedBook>();
 
-                // If the Book List is empty then no one has pre-loaned that book
-                if (PreLoanedBooks.Count != 0)
-                {
-                    // Delete the records from the table for that book as the users who have the earliest date take priority
-                    command.CommandText = @"DELETE FROM PreLoanedBook WHERE Id IN(SELECT TOP(@BFirst) Id FROM PreLoanedBook WHERE BookId = @BId ORDER BY DatePreLoaned)";
-                    command.ExecuteNonQuery();
-
-                    for (int i = 0; i < PreLoanedBooks.Count; i++)
+                    // Get each username who pre-loan the book
+                    while (reader.Read())
                     {
-                        // Add those records to LoanedBook Table & add the Dates
-                        command.CommandText = @"INSERT INTO LoanedBook (UsernameId, BookId, DateLoaned, DateReturned) VALUES (@CId" + i + ", @BId, @DLoaned" + i + ", @DReturned" + i + ")";
-                        command.Parameters.AddWithValue("@CId" + i, PreLoanedBooks[i].CustomerId);
+                        PreLoanedBook PreLoanedBook = new PreLoanedBook();
+                        PreLoanedBook.CustomerId = reader.GetInt32(0);
 
-                        // already defined BookId earlier on, so automatically added
-
-                        DateTime currentDate = DateTime.Now; // get the current time
-
-                        command.Parameters.AddWithValue("@DLoaned" + i, currentDate);  // they now loan the book as of now
-                        command.Parameters.AddWithValue("@DReturned" + i, currentDate.AddDays(7)); // this is the returned due date
-
-                        command.ExecuteNonQuery();
-
+                        PreLoanedBooks.Add(PreLoanedBook);
                     }
 
-                    // change the value - people who preloan the book take priorty 
-                    BookRecord.CurrentBooks = BookRecord.AddedBooks - PreLoanedBooks.Count;
+                    reader.Close();
+
+                    // If the Book List is empty then no one has pre-loaned that book
+                    if (PreLoanedBooks.Count != 0)
+                    {
+                        // Delete the records from the table for that book as the users who have the earliest date take priority
+                        command.CommandText = @"DELETE FROM PreLoanedBook WHERE Id IN(SELECT TOP(@BFirst) Id FROM PreLoanedBook WHERE BookId = @BId ORDER BY DatePreLoaned)";
+                        command.ExecuteNonQuery();
+
+                        for (int i = 0; i < PreLoanedBooks.Count; i++)
+                        {
+                            // Add those records to LoanedBook Table & add the Dates
+                            command.CommandText = @"INSERT INTO LoanedBook (UsernameId, BookId, DateLoaned, DateReturned) VALUES (@CId" + i + ", @BId, @DLoaned" + i + ", @DReturned" + i + ")";
+                            command.Parameters.AddWithValue("@CId" + i, PreLoanedBooks[i].CustomerId);
+
+                            // already defined BookId earlier on, so automatically added
+
+                            DateTime currentDate = DateTime.Now; // get the current time
+
+                            command.Parameters.AddWithValue("@DLoaned" + i, currentDate);  // they now loan the book as of now
+                            command.Parameters.AddWithValue("@DReturned" + i, currentDate.AddDays(7)); // this is the returned due date
+
+                            command.ExecuteNonQuery();
+
+                        }
+
+                        // change the value - people who preloan the book take priorty 
+                        BookRecord.CurrentBooks = BookRecord.AddedBooks - PreLoanedBooks.Count;
+                    }
+
+                    else
+                    {
+                        // If no one has preloaned the book we  can just simply add it on
+                        BookRecord.CurrentBooks = BookRecord.CurrentBooks + BookRecord.AddedBooks;
+                    }
+
+
                 }
 
 
                 else
                 {
-                    // Update the Added Book Stock to the Current quantity
+                    // If no one has preloaned the book we  can just simply add it on
                     BookRecord.CurrentBooks = BookRecord.CurrentBooks + BookRecord.AddedBooks;
                 }
 

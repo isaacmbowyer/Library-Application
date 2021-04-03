@@ -1,3 +1,22 @@
-﻿@{      
-    Layout = "_Layout";
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    string Role = Html.ViewContext.HttpContext.Session.GetString("role");
+    if (Role == "Customer")
+    {
+        Layout = "_CustomerLayout";
+    }
+
+    else if(Role == "Librarian")
+    {
+        Layout = "_LibrarianLayout";
+    }
+    else
+    {
+        Layout = "_AdminLayout";
+    }
+
+
+
+
+
 }

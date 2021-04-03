@@ -29,5 +29,6 @@ namespace LibraryLove.Model
         [Display(Name = "Due Return Date")]
         public DateTime ReturnDate { get; set; }
 
+
     }
 }

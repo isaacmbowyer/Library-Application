@@ -1,100 +1,109 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using AdminProject.Models;
+using LibraryLove;
+using LibraryLove.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.SqlClient;
 
 namespace AdminProject.Pages.ViewLibrarians
 {
-    public class IndexModel : PageModel
+    public class ViewLibrariansModel : PageModel
     {
-            //[BindProperty]
-        public List<AllMembers> UserList { get; set; }
+        public List<Member> UserList { get; set; }
+
+
         [BindProperty(SupportsGet = true)]
         public string SearchData { get; set; }
 
+        public bool NoMatch { get; set; }
+
+        public int Id { get; set; }
+
         public void OnGet()
         {
-            if(SearchData != null)
+            // Connect to Database
+            DBConnection dbstring = new DBConnection();
+            string DbConnection = dbstring.DbString();
+            SqlConnection conn = new SqlConnection(DbConnection);
+            conn.Open();
+
+
+            using (SqlCommand command = new SqlCommand())
             {
-                string dbconnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AllMembers;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+                command.Connection = conn;
+                command.CommandText = @"SELECT * FROM Member WHERE ROLE = 'Librarian'";
 
-
-                SqlConnection conn = new SqlConnection(dbconnection);
-                conn.Open();
-
-                //  AllMembers = new AllMembers();
-
-                using (SqlCommand command = new SqlCommand())
+                if (!string.IsNullOrEmpty(SearchData))
                 {
-                    command.Connection = conn;
-                    command.CommandText = @"SELECT * FROM UsersTable WHERE Role = 'Librarian' AND Username ='" + SearchData + "'";
-
-                    SqlDataReader read = command.ExecuteReader();
-
-                    UserList = new List<AllMembers>();
-
-                    while (read.Read())
+                    if (SearchData.Contains('@'))
                     {
-                        AllMembers record = new AllMembers();
-                        record.Id = read.GetInt32(0);
-                        record.Username = read.GetString(1);
-                        record.FirstName = read.GetString(2);
-                        record.LastName = read.GetString(3);
-                        record.Email = read.GetString(4);
-                        record.Password = read.GetString(5);
-                        record.Role = read.GetString(6);
+                        command.CommandText += " AND Email LIKE '%' + @User + '%'";
 
-                        UserList.Add(record);
                     }
-                    read.Close();
-                    //conn.Close();
+                    else
+                    {
+                        command.CommandText += " AND Username LIKE '%' + @User + '%'";
+                    }
+
+                    command.Parameters.AddWithValue("@User", SearchData);
                 }
 
-            }
-            else if (SearchData == null)
-            {
-                string dbconnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AllMembers;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+                SqlDataReader read = command.ExecuteReader();
 
+                UserList = new List<Member>();
 
-                SqlConnection conn = new SqlConnection(dbconnection);
-                conn.Open();
-
-                //  AllMembers = new AllMembers();
-
-                using (SqlCommand command = new SqlCommand())
+                while (read.Read())
                 {
-                    command.Connection = conn;
-                    command.CommandText = @"SELECT * FROM UsersTable WHERE Role = 'Librarian'";
+                    Member record = new Member();
+                    record.Id = read.GetInt32(0);
+                    record.Username = read.GetString(1);
+                    record.FirstName = read.GetString(2);
+                    record.LastName = read.GetString(3);
+                    record.Email = read.GetString(4);
 
-                    SqlDataReader read = command.ExecuteReader();
-
-                    UserList = new List<AllMembers>();
-
-                    while (read.Read())
-                    {
-                        AllMembers record = new AllMembers();
-                        record.Id = read.GetInt32(0);
-                        record.Username = read.GetString(1);
-                        record.FirstName = read.GetString(2);
-                        record.LastName = read.GetString(3);
-                        record.Email = read.GetString(4);
-                        record.Password = read.GetString(5);
-                        record.Role = read.GetString(6);
-
-                        UserList.Add(record);
-                    }
-                    read.Close();
-                    //conn.Close();
+                    UserList.Add(record);
                 }
+                read.Close();
 
             }
 
+
+
+            if (UserList.Count == 0)
+            {
+                NoMatch = true;
+            }
+            else
+            {
+                NoMatch = false;
+            }
 
         }
+        public void OnPost()
+        {
+            // Connect to Database
+            DBConnection dbstring = new DBConnection();
+            string DbConnection = dbstring.DbString();
+            SqlConnection conn = new SqlConnection(DbConnection);
+            conn.Open();
+
+            using (SqlCommand command = new SqlCommand())
+            {
+                // Delete the User
+                command.Connection = conn;
+                command.CommandText = @"DELETE Member WHERE Id = @UId";
+                command.Parameters.AddWithValue("@UId", Id);
+
+                command.ExecuteNonQuery();
+            }
+
+            OnGet(); // get a new list of librarians
+
+        }
+
     }
-    }
+ }
 

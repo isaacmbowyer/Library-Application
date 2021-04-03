@@ -25,5 +25,7 @@ namespace LibraryLove.Model
 
         [Display(Name = "Date Pre-Loaned")]
         public DateTime PreLoanedDate { get; set; }
+
+        public List<bool> isPreLoaned{ get; set; }
     }
 }
