@@ -117,7 +117,7 @@ namespace LibraryLove.Pages.Customer
             }
         }
 
-        public IActionResult OnPostLoan()
+        public void OnPostLoan()
         {
 
             // Connect to Database
@@ -149,13 +149,14 @@ namespace LibraryLove.Pages.Customer
                 command.ExecuteNonQuery();
 
 
-
-                return Page();
+                
             }
+
+            OnGet(BookRecord.Id);
         }
 
 
-        public IActionResult OnPostReturn()
+        public void OnPostReturn()
         {
             // Connect to Database
             DBConnection dbstring = new DBConnection();
@@ -230,15 +231,16 @@ namespace LibraryLove.Pages.Customer
                 {
                     // No users preloan the book add quantity
                       AddQuantity(command, Id);
-                } 
-               
-            
+                }
 
-                return Page();
+
+
+
+                OnGet(BookRecord.Id);
             }
         }
 
-        public IActionResult OnPostPreLoan()
+        public void OnPostPreLoan()
         {
             // Connect to Database
             DBConnection dbstring = new DBConnection();
@@ -259,12 +261,12 @@ namespace LibraryLove.Pages.Customer
                 command.ExecuteNonQuery();
 
 
-                return Page();
             }
-        
+
+            OnGet(BookRecord.Id);
         }
 
-        public IActionResult OnPostCancelPreLoan()
+        public void OnPostCancelPreLoan()
         {
 
             // Connect to Database
@@ -285,8 +287,9 @@ namespace LibraryLove.Pages.Customer
                 command.ExecuteNonQuery();
 
 
-                return Page();
             }
+
+            OnGet(BookRecord.Id);
         }
 
     
