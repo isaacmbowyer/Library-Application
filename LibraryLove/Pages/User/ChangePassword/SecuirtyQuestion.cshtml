@@ -1,0 +1,48 @@
+﻿@page
+@model LibraryLove.Pages.User.ForgotPassword.SecurityQuestionModel
+
+@{
+}
+
+<h1>:: Please Confirm your Security Question Answer ::</h1>
+
+<!-- Form that asks questions based on created from signup and expects the matching answers -->
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div class="form-group">
+                <div class="mb-1">
+                    <label class="lead" asp-for="NewUser.SecurityQuestion"></label>
+                </div>
+                <dd>
+                    @Html.DisplayFor(model => model.SecurityQuestion)
+                </dd>
+            </div>
+            <div class="form-group">
+                <div class="mb-1">
+                    <label class="lead" asp-for="NewUser.SecurityAnswer"></label><sup>*</sup>
+                </div>
+                <input type="password" asp-for="NewUser.SecurityAnswer" class="form-control" />
+                <span asp-validation-for="NewUser.SecurityAnswer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Next Step" class="btn form-control" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+        });
+    </script>
+
+    <script src="~/js/fileUpload.js"></script>
+
+}

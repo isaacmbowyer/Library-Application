@@ -39,15 +39,9 @@ namespace LibraryLove.Pages.Customer
                 // Select every loaned book to be displayed to the user
                 command.Connection = conn;
 
-                if (BookRecord.Genre != null)
-                {
-                    command.CommandText = "SELECT BookId, Title, AuthorFirstName, AuthorLastName, Image FROM LoanedBook INNER JOIN Member ON UsernameId = Member.Id INNER JOIN Book ON Book.Id = BookId WHERE UsernameId = @UID AND Genre = @BGenre ORDER BY Title";
-                    command.Parameters.AddWithValue("BGenre", BookRecord.Genre);
-                }
-                else
-                {
-                    command.CommandText = @"SELECT BookId, Title, AuthorFirstName, AuthorLastName, Image FROM LoanedBook INNER JOIN Member ON UsernameId = Member.Id INNER JOIN Book ON Book.Id = BookId WHERE UsernameId = @UID ORDER BY Title";
-                }
+             
+                command.CommandText = @"SELECT BookId, Title, AuthorFirstName, AuthorLastName, Image FROM LoanedBook INNER JOIN Member ON UsernameId = Member.Id INNER JOIN Book ON Book.Id = BookId WHERE UsernameId = @UID ORDER BY Title";
+                
 
                 command.Parameters.AddWithValue("@UID", (int)HttpContext.Session.GetInt32(SessionKeyName1));
 
@@ -71,15 +65,10 @@ namespace LibraryLove.Pages.Customer
                 reader.Close();
 
                 // Select every preloaned book to be displayed to the user
-                if (BookRecord.Genre != null)
-                {
-                    command.CommandText = "SELECT BookId, Title, AuthorFirstName, AuthorLastName, Image FROM PreLoanedBook INNER JOIN Member ON UsernameId = Member.Id INNER JOIN Book ON Book.Id = BookId WHERE UsernameId = @UID AND Genre = @BGenre ORDER BY Title";
-                    
-                }
-                else
-                {
-                    command.CommandText = @"SELECT BookId, Title, AuthorFirstName, AuthorLastName, Image FROM PreLoanedBook INNER JOIN Member ON UsernameId = Member.Id INNER JOIN Book ON Book.Id = BookId WHERE UsernameId = @UID ORDER BY Title";
-                }
+         
+            
+                command.CommandText = @"SELECT BookId, Title, AuthorFirstName, AuthorLastName, Image FROM PreLoanedBook INNER JOIN Member ON UsernameId = Member.Id INNER JOIN Book ON Book.Id = BookId WHERE UsernameId = @UID ORDER BY Title";
+               
 
 
                 reader = command.ExecuteReader(); // read reecords

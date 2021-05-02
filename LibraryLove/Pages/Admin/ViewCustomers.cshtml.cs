@@ -22,7 +22,6 @@ namespace AdminProject.Pages.ViewCustomers
         [BindProperty]
         public int Id { get; set; }
 
-        public bool NoMatch { get; set; }
 
         public void OnGet()
         {
@@ -37,21 +36,8 @@ namespace AdminProject.Pages.ViewCustomers
             {
                 command.Connection = conn;
                 command.CommandText = @"SELECT * FROM Member WHERE ROLE = 'Customer'";
-
-                if (!string.IsNullOrEmpty(SearchData))
-                {
-                    if (SearchData.Contains('@'))
-                    {
-                        command.CommandText += " AND Email LIKE '%' + @User + '%'";
-
-                    }
-                    else
-                    {
-                        command.CommandText += " AND Username LIKE '%' + @User + '%'";
-                    }
-
-                    command.Parameters.AddWithValue("@User", SearchData);
-                }
+                command.Parameters.AddWithValue("@User", SearchData);
+              
 
                 SqlDataReader read = command.ExecuteReader();
 
@@ -72,42 +58,7 @@ namespace AdminProject.Pages.ViewCustomers
 
             }
 
-
-
-            if (UserList.Count == 0)
-            {
-                NoMatch = true;
-            }
-            else
-            {
-                NoMatch = false;
-            }
-
-
         }
-
-        public void OnPost()
-        {
-            // Connect to Database
-            DBConnection dbstring = new DBConnection();
-            string DbConnection = dbstring.DbString();
-            SqlConnection conn = new SqlConnection(DbConnection);
-            conn.Open();
-
-            using (SqlCommand command = new SqlCommand())
-            {
-                // Delete the User
-                command.Connection = conn;
-                command.CommandText = @"DELETE Member WHERE Id = @UId";
-                command.Parameters.AddWithValue("@UId", Id);
-
-                command.ExecuteNonQuery();
-            }
-
-            OnGet(); // get a new list of customers
-
-        }
-
 
     }
 }

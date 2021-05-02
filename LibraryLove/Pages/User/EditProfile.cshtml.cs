@@ -30,6 +30,14 @@ namespace LibraryLove.Pages.User
             SessionID = HttpContext.Session.GetString(SessionKeyName1);
             Id = (int)HttpContext.Session.GetInt32(SessionKeyName2);
 
+            //checks if session is correct
+            if (string.IsNullOrEmpty(SessionID))
+            {
+                HttpContext.Session.Clear();
+                return RedirectToPage("../Browser/Login");
+            }
+
+
             // Connect to Database
             DBConnection dbstring = new DBConnection();
             string DbConnection = dbstring.DbString();
@@ -106,35 +114,6 @@ namespace LibraryLove.Pages.User
                 command.ExecuteNonQuery();
 
                 return RedirectToPage("/User/ViewAccount");
-
-            }
-
-        }
-
-        public IActionResult OnPostDelete()
-        {
-
-            // Connect to Database 
-            DBConnection dbstring = new DBConnection();
-            string DbConnection = dbstring.DbString();
-            SqlConnection conn = new SqlConnection(DbConnection);
-            conn.Open();
-
-            using (SqlCommand command = new SqlCommand())
-
-            {
-                // get the id 
-                Id = (int)HttpContext.Session.GetInt32(SessionKeyName2);
-
-                // Deletes the row that matches the username
-                command.Connection = conn;
-                command.CommandText = "DELETE FROM Member WHERE Id = @UID";
-
-                command.Parameters.AddWithValue("@UID", Id);
-
-                command.ExecuteNonQuery();
-
-                return RedirectToPage("./Index");
 
             }
 

@@ -19,13 +19,14 @@ namespace LibraryLove.Pages.Customer
         public DateTime Date { get; set; }
 
         [BindProperty]
-        public DateTime ReturnDate { get; set; } 
+        public DateTime ReturnDate { get; set; }
+
+        // At first we do not know if they loaned the book or if they preloaned it
+        [BindProperty]
+        public bool PreLoanBook { get; set; } = false;
 
         [BindProperty]
-        public bool PreLoanBook { get; set; }
-
-        [BindProperty]
-        public bool LoanBook { get; set; }
+        public bool LoanBook { get; set; } = false;
         public PreLoanedBook PreLoanedRecord { get; set; }
 
         public int Id;
@@ -71,20 +72,22 @@ namespace LibraryLove.Pages.Customer
                     }
 
                 }
+
                 reader.Close();
 
                 // Check if the user has the book
                 Id = (int)HttpContext.Session.GetInt32(SessionKeyName1);
 
 
-                PreLoanBook = false; // to determine if the user has the book
-                LoanBook = false;
+           
+                command.Parameters.AddWithValue("@UID", Id);
 
-                if(BookRecord.Quantity == 0)
+
+                if (BookRecord.Quantity == 0)
                 {
                     // SQL Query to see if the Customer preloans the book
                     command.CommandText = @"SELECT DatePreLoaned FROM PreLoanedBook WHERE UsernameId = @UID AND BookId = @BId";
-                    command.Parameters.AddWithValue("@UID", Id);
+
                     reader = command.ExecuteReader(); // read records 
 
                     while (reader.Read())
@@ -93,14 +96,16 @@ namespace LibraryLove.Pages.Customer
                         PreLoanBook = true;  // user has preloaned the book
                     }
 
-                }
-             
+                    reader.Close();
 
+                }
+         
+             
+                // If the Book is not quanitty 0 that means no one can pre-loan the book
                 if(!PreLoanBook)
                 {
                     // This means that the User might have loaned the book instead
                     command.CommandText = @"SELECT DateLoaned, DateReturned FROM LoanedBook WHERE UsernameId = @UID AND BookId = @BId";
-                    command.Parameters.AddWithValue("@UID", Id);
                     reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -109,15 +114,16 @@ namespace LibraryLove.Pages.Customer
                         LoanBook = true; // user has the book
                     }
 
+                    reader.Close();
                 }
 
-                reader.Close();
+
 
 
             }
         }
 
-        public void OnPostLoan()
+        public IActionResult OnPostLoan()
         {
 
             // Connect to Database
@@ -135,16 +141,17 @@ namespace LibraryLove.Pages.Customer
                 command.Parameters.AddWithValue("@UserId", Id = (int)HttpContext.Session.GetInt32(SessionKeyName1));
                 command.Parameters.AddWithValue("@BookId", BookRecord.Id);
 
-                DateTime currentDate = DateTime.Now;
-                command.Parameters.AddWithValue("@DLoaned", currentDate);
-                command.Parameters.AddWithValue("@DReturned", currentDate.AddDays(7));
+                Date = DateTime.Now;
+                ReturnDate = Date.AddDays(7);
+                BookRecord.Quantity -= 1; 
+                command.Parameters.AddWithValue("@DLoaned", Date);
+                command.Parameters.AddWithValue("@DReturned", ReturnDate);
                 command.ExecuteNonQuery();
 
 
                 // SQL Query to add the quanity of the book
                 command.CommandText = @"UPDATE Book SET Quantity = @BQuantity WHERE Id = @BookId";
-                command.Parameters.AddWithValue("@BookId", BookRecord.Id);
-                command.Parameters.AddWithValue("@BQuantity", BookRecord.Quantity - 1);
+                command.Parameters.AddWithValue("@BQuantity", BookRecord.Quantity);
 
                 command.ExecuteNonQuery();
 
@@ -152,11 +159,15 @@ namespace LibraryLove.Pages.Customer
                 
             }
 
-            OnGet(BookRecord.Id);
+            LoanBook = true;
+            PreLoanBook = false;
+            return Page();
+
+
         }
 
 
-        public void OnPostReturn()
+        public IActionResult OnPostReturn()
         {
             // Connect to Database
             DBConnection dbstring = new DBConnection();
@@ -180,8 +191,7 @@ namespace LibraryLove.Pages.Customer
                 if(BookRecord.Quantity == 0)
                 {
                     // First read PreloanBook Table as we need to know if any customers have preloaned the book  as they will instantly loan the book
-                    command.CommandText = @"SELECT TOP(1) UsernameId FROM PreLoanedBook WHERE BookId = @BId ORDER BY DatePreLoaned";
-                    command.Parameters.AddWithValue("@BId", BookRecord.Id);
+                    command.CommandText = @"SELECT TOP(1) UsernameId FROM PreLoanedBook WHERE BookId = @BookId ORDER BY DatePreLoaned";
 
                     SqlDataReader reader = command.ExecuteReader(); // read records 
 
@@ -233,14 +243,17 @@ namespace LibraryLove.Pages.Customer
                       AddQuantity(command, Id);
                 }
 
+                // User has just returned the book
+                LoanBook = false;
+                PreLoanBook = false;
+                return Page();
 
 
 
-                OnGet(BookRecord.Id);
             }
         }
 
-        public void OnPostPreLoan()
+        public IActionResult OnPostPreLoan()
         {
             // Connect to Database
             DBConnection dbstring = new DBConnection();
@@ -253,43 +266,21 @@ namespace LibraryLove.Pages.Customer
                 command.Connection = conn;
 
                 // SQL Query to insert preloaned book details
-                command.CommandText = @"INSERT INTO LoanedBook(UsernameId, BookId, DatePreLoaned) VALUES(@UserID, @BookID, @DPLoaned)";
+                command.CommandText = @"INSERT INTO PreLoanedBook(UsernameId, BookId, DatePreLoaned) VALUES(@UserID, @BookID, @DPLoaned)";
                 command.Parameters.AddWithValue("@UserId", Id = (int)HttpContext.Session.GetInt32(SessionKeyName1));
                 command.Parameters.AddWithValue("@BookId", BookRecord.Id);
-                command.Parameters.AddWithValue("@DPLoaned", DateTime.Now);
+                Date = DateTime.Now;
+                command.Parameters.AddWithValue("@DPLoaned", Date);
 
                 command.ExecuteNonQuery();
 
 
             }
 
-            OnGet(BookRecord.Id);
-        }
+            PreLoanBook = true;
+            LoanBook = false;
+            return Page();
 
-        public void OnPostCancelPreLoan()
-        {
-
-            // Connect to Database
-            DBConnection dbstring = new DBConnection();
-            string DbConnection = dbstring.DbString();
-            SqlConnection conn = new SqlConnection(DbConnection);
-            conn.Open();
-
-            using (SqlCommand command = new SqlCommand())
-            {
-                command.Connection = conn;
-
-                // SQL Query to delete preloaned book details
-                command.CommandText = @"DELETE FROM PreLoanedBook WHERE BookId = @BookId AND UsernameId = @UserId";
-                command.Parameters.AddWithValue("@UserId", Id = (int)HttpContext.Session.GetInt32(SessionKeyName1));
-                command.Parameters.AddWithValue("@BookId", BookRecord.Id);
-
-                command.ExecuteNonQuery();
-
-
-            }
-
-            OnGet(BookRecord.Id);
         }
 
     

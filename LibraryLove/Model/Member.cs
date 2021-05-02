@@ -30,15 +30,13 @@ namespace LibraryLove.Model
         [Display(Name = "Role")]
         public UserRole? MemberRole { get; set; }
 
-        public string Role { get; set; }
-
         [Required(ErrorMessage = "Select a Security Question")]
         [Display(Name = "Security Question")]
         public Security? SecurityQuestion { get; set; }
 
         [Required(ErrorMessage = "Answer to Security Question is required")]
         [Display(Name = "Secuirty Answer")]
-        public string SecurityAnswer { get; set; }
+        public string? SecurityAnswer { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

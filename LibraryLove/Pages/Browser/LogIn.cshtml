@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label asp-for="UserRecord.Password" class="control-label">Password</label><sup>*</sup>
                 <input asp-for="UserRecord.Password" type="password" class="form-control" id="password" />
-                <span asp-validation-for="UserRecord.Password" class="text-danger" ></span>
+                <span asp-validation-for="UserRecord.Password" class="text-danger"></span>
             </div>
 
             <input type="submit" value="Log In" class="btn btn-primary" />
@@ -32,9 +32,10 @@
         </div>
 
         <div>
-            <p> <a asp-page="/ForgotPassword/VerifyEmail"> Forgot Password </a> </p>
+            <p> <a asp-page="/User/ForgotPassword/VerifyUser"> Forgot Password </a> </p>
         </div>
     </div>
+
 </div>
 
 @section Scripts{

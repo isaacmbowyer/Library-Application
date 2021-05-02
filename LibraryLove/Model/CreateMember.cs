@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibraryLove.Model
 {
-    public class CreateMember : IValidatableObject
+    public class AdminCreate : IValidatableObject
     {
         public int Id { get; set; }
 
@@ -30,8 +30,6 @@ namespace LibraryLove.Model
         [Display(Name = "Role")]
         public UserRole? MemberRole { get; set; }
 
-        public string Role { get; set; }
-
         
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
@@ -40,15 +38,9 @@ namespace LibraryLove.Model
         [Required(ErrorMessage ="Confirm Password is required")]
         [Compare(nameof(Password), ErrorMessage = "Passwords must match")]
         [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "Select a Security Question")]
-        [Display(Name = "Security Question")]
-        public Security? SecurityQuestion { get; set; }
-
-        [Required(ErrorMessage = "Answer to Security Question is required")]
-        [Display(Name = "Secuirty Answer")]
-        public string SecurityAnswer { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

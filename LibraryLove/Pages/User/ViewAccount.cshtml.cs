@@ -34,9 +34,9 @@ namespace LibraryLove.Pages.User
             if (string.IsNullOrEmpty(SessionID))
             {
                 HttpContext.Session.Clear();
-                return RedirectToPage("/Browser/Login");
+                return RedirectToPage("../Browser/Login");
             }
-
+            
             // Connect to Database
             DBConnection dbstring = new DBConnection();
             string DbConnection = dbstring.DbString();

@@ -44,6 +44,21 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.member.SecurityAnswer)
         </dd>
-    }    
+    }
+    else
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.member.SecurityQuestion)
+        </dt>
+        <dd class="col-sm-10" style="color: red !important;">
+            N/A
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.member.SecurityAnswer)
+        </dt>
+        <dd class="col-sm-10" style="color: red !important;">
+           N/A
+        </dd>
+    }
 
 </dl>

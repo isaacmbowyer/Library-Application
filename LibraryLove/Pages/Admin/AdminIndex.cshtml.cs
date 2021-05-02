@@ -31,7 +31,7 @@ namespace LibraryLove.Pages.Admin
             if (string.IsNullOrEmpty(UserName))
             {
                 HttpContext.Session.Clear();
-                return RedirectToPage("/Login/Login");
+                return RedirectToPage("../Browser/Login");
             }
             return Page();
 

@@ -17,6 +17,13 @@
         </div>
         <div class="my-4">
             <form method="post">
+                <input type="hidden" asp-for="BookRecord.Id" />
+                <input type="hidden" asp-for="BookRecord.Title" />
+                <input type="hidden" asp-for="BookRecord.AuthorFirstName" />
+                <input type="hidden" asp-for="BookRecord.AuthorLastName" />
+                <input type="hidden" asp-for="BookRecord.Image" />
+                <input type="hidden" asp-for="BookRecord.ISBN" />
+                <input type="hidden" asp-for="BookRecord.Quantity" />
                 @if (Model.PreLoanBook || Model.LoanBook)
                 {
                     // Loan the Book
@@ -29,7 +36,7 @@
                             var dateLeft = (Model.ReturnDate.Day - currentDate.Day);
                             <p>You have @dateLeft days to return this Book.</p>
                             <p> Date Due: <span class="text-success">@Model.ReturnDate.ToString("dd/MM/yyyy") </span></p>
-                            <button type="submit" asp-page-handler="Return" asp-route-id="@Model.BookRecord.Id" asp-route-quantity="@Model.BookRecord.Quantity" class="btn">Return Book</button>
+                            <button type="submit" asp-page-handler="Return" class="btn">Return Book</button>
 
                         }
                         else
@@ -37,15 +44,14 @@
                             // Customer has penalty on their book
                             <p>You have exceeded the amount of days to return this Book. Pay a Charge</p>
                             <p>Date was Due: <span class="text-danger">@Model.ReturnDate.ToString("dd/MM/yyyy")</span></p>
-                            <button type="submit" asp-action="ReturnandPay" asp-route-id="@Model.BookRecord.Id" asp-route-quantity="@Model.BookRecord.Quantity" class="btn">Return Book and Pay Charge</button>
+                            <button type="submit" asp-page-handler="ReturnandPay" class="btn">Return Book and Pay Charge</button>
                         }
 
                     }
                     // Pre Loan the Book
                     else
                     {
-                        <p>You have pre-loaned this book. Would you like to cancel our pre-loan request?</p>
-                        <button type="submit" asp-action="CancelPreLoan" asp-route-id="@Model.BookRecord.Id" class="btn">Remove Pre-Loan</button>
+                        <p>You have pre-loaned this book</p>
                     }
                 }
                 else
@@ -53,14 +59,14 @@
                     // See if the book is on loan or on preloan
                     @if (Model.BookRecord.Quantity == 0)
                     {
-                        <p>This Book Record is not in stock. It must be pre-loaned</p>
-                        <button type="submit" asp-action="PreLoan" asp-route-id="@Model.BookRecord.Id" class="btn">Pre-Loan Book</button>
+                        <p>This Book is not in stock. It must be pre-loaned</p>
+                        <button type="submit" asp-page-handler="PreLoan" class="btn">Pre-Loan Book</button>
 
                     }
                     else
                     {
-                        <p>There are @Model.BookRecord.Quantity copies of this book left </p>
-                        <button type="submit" asp-action="Loan" asp-route-id="@Model.BookRecord.Id" asp-route-quantity="@Model.BookRecord.Quantity" class="btn">Loan Book</button>
+                        <p>There are @Model.BookRecord.Quantity copies of this Book left </p>
+                        <button type="submit" asp-page-handler="Loan" class="btn">Loan Book</button>
                     }
                 }
             </form>

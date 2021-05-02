@@ -1,0 +1,48 @@
+﻿@page
+@model LibraryLove.Pages.User.ForgotPassword.VerifyUserModel
+@{
+}
+
+<h1>:: Forgot Password ::</h1>
+
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <!-- Asks for email and user input to check if account exists in system before next step -->
+            <div class="form-group">
+                <div class="mb-1">
+                    <label asp-for="NewUser.Username"></label><sup>*</sup>
+                </div>
+                <input type="text" asp-for="NewUser.Username" class="form-control" />
+                <span asp-validation-for="NewUser.Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="mb-1">
+                    <label asp-for="NewUser.Email"></label><sup>*</sup>
+                </div>
+                <input type="email" asp-for="NewUser.Email" class="form-control" />
+                <span asp-validation-for="NewUser.Email" class="text-danger"></span>
+            </div>
+            <div>
+                <input type="submit" value="Next Step" class="btn btn-primary form-control" />
+            </div>
+
+        </form>
+
+        <div>
+            <p style="color: red">@Model.Message</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({ html: true });
+        });
+    </script>
+
+}

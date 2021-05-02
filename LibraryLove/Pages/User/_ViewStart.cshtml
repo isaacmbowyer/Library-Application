@@ -10,13 +10,15 @@
     {
         Layout = "_LibrarianLayout";
     }
-    else
+    else if(Role == "Admin")
     {
+
         Layout = "_AdminLayout";
     }
-
-
-
+    else
+    {
+        Layout = "_BrowserLayout";
+    }
 
 
 }

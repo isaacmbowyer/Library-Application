@@ -4,10 +4,7 @@
 }
 
 <p class="lead">
-    Theme Mode: <i class="fas fa-info-circle fa-lg"
-    data-toggle="tooltip"
-    data-placement="right"
-    title="Change the styles of a website. <br /> <strong>This is saved as cookies </strong>"></i>
+    Theme Mode:
 </p>
 <div class="mode mb-3">
     <input type="checkbox" class="checkbox" id="checkbox" />
@@ -61,7 +58,7 @@
                 <i class="fas fa-info-circle fa-lg"
                    data-toggle="tooltip"
                    data-placement="top"
-                   title="Select a Security Question from the list. This is used for additional security"></i>
+                   title="Select a Security Question from the list. <br/>This is used for additional security"></i>
             </div>
         </div>
         <div class="col-12">
@@ -91,38 +88,10 @@
         <span asp-validation-for="member.SecurityAnswer" class="text-danger"></span>
     </div>
     <br />
-    <div class="form-group mb-1">
+    <div class="mb-2">
         <input type="submit" value="Edit Details" class="btn form-control" />
     </div>
-    <div class="form-group">
-        <button class="btn form-control" data-toggle="modal" data-target="#deleteModal" style="background: red !important;">Delete Account</button>
-    </div>
 </form>
-
-
-
-
-
-<div id="deleteModal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4>Are you sure you want to delete your account?</h4>
-                <button type="button" class="close" data-dismiss="modal">x</button>
-            </div>
-            <div class="modal-body">
-                <form method="post">
-                    <input type="hidden" asp-for="Id" class="hiddenUserId" />
-                    <p>Once Submitted this cannot be undone</p>
-                    <input asp-action="Delete" type="submit" value="Delete My Account" class="btn form-control submit" style="background: red !important;" />
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 
 @section Scripts{
     <script>

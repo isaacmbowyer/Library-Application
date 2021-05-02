@@ -4,29 +4,6 @@
     ViewData["Title"] = "My Personal Books";
 }
 
-@if ((Model.LoanedBooks.Count != 0 && Model.PreLoanedBooks.Count != 0) || Model.BookRecord.Genre != null)
-{
-    <form method="get">
-        <div class="form-group d-md-flex">
-            <label class="lead mr-md-2">View By</label>
-            <div>
-                <select onchange="this.form.submit()"
-                        asp-for="BookRecord.Genre"
-                        asp-items="@Html.GetEnumSelectList<LibraryLove.Model.BookGenre>()"
-                        class="custom-select mr-sm-2 genre-select">
-                    <option value="">All</option>
-                </select>
-            </div>
-            <i class="fas fa-info-circle fa-lg mt-3 view-info-circle"
-               data-toggle="tooltip"
-               data-placement="right"
-               title="Click on a Book to view more details and actions"></i>
-        </div>
-    </form>
-
-}
-
-
 @if (Model.LoanedBooks.Count != 0)
 {
 
@@ -82,14 +59,8 @@
 
 @if (Model.LoanedBooks.Count == 0 && Model.PreLoanedBooks.Count == 0)
 {
-    @if (Model.BookRecord.Genre != null)
-    {
-        <p class="lead">You have no books under this Genre</p>
-    }
-    else
-    {
-        <p class="lead">You have no books</p>
-    }
+
+        <p class="lead">You currently have no books</p>
 }
 
 

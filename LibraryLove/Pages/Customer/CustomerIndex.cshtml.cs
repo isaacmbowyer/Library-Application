@@ -30,7 +30,7 @@ namespace LibraryLove.Pages.Customer
             if (string.IsNullOrEmpty(UserName))
             {
                 HttpContext.Session.Clear();
-                return RedirectToPage("/Browser/Login");
+                return RedirectToPage("../Browser/Login");
             }
             return Page();
 

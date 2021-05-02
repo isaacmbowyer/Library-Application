@@ -17,7 +17,7 @@ namespace LibraryLove.Pages.Admin
     public class CreateModel : PageModel
     {
         [BindProperty(SupportsGet = true)]
-        public CreateMember record { get; set; }
+        public AdminCreate record { get; set; }
 
         public void OnGet()
         {
