@@ -69,7 +69,7 @@ namespace LibraryLove.Pages.User.ForgotPassword
                     HttpContext.Session.SetString("sanswer", NewUser.SecurityAnswer);
 
                     //If an account exists with this email address and username then it creates a session and saves the above variables for future use
-                    return RedirectToPage("../ChangePassword/SecuirtyQuestion");
+                    return RedirectToPage("/SecuirtyQuestion");
                 }
                 else
                 {
