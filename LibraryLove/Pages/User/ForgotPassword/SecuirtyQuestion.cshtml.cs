@@ -44,14 +44,14 @@ namespace LibraryLove.Pages.User.ForgotPassword
 
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(string answer)
         {
 
             // retirve the infomation from the session
             SecurityAnswer = HttpContext.Session.GetString(SessionKeyName2);
 
             // compare the Secuirty Answer with the one selected from user
-            if (NewUser.SecurityAnswer == SecurityAnswer)
+            if (answer  == SecurityAnswer)
             {
                 // User has entered all the correct details, they can now change their password
                return RedirectToPage("ResetPassword");

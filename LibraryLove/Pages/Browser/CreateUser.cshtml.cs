@@ -18,7 +18,7 @@ namespace LibraryLove.Pages.Browser
         {
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(CreateMember record)
         {
             if (!ModelState.IsValid)
             {

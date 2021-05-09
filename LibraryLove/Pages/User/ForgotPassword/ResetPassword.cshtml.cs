@@ -24,9 +24,6 @@ namespace LibraryLove.Pages.User.ForgotPassword
         public string SessionID;
         public const string SessionKeyName3 = "sessionID";
 
-
-        public string Message { get; set; }
-
         [BindProperty]
         public CreateMember NewUser { get; set; }
 
@@ -44,7 +41,7 @@ namespace LibraryLove.Pages.User.ForgotPassword
             return Page();
 
         }
-        public IActionResult OnPost()
+        public IActionResult OnPost(CreateMember NewUser)
         {
 
             // Connect to Database 

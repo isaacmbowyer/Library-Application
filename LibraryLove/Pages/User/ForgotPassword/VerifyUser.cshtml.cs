@@ -22,7 +22,7 @@ namespace LibraryLove.Pages.User.ForgotPassword
         {
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(Member NewUser)
         {
 
             // Connect to Database 
