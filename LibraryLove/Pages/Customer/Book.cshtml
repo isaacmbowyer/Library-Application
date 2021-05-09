@@ -29,23 +29,11 @@
                     // Loan the Book
                     @if (Model.LoanBook)
                     {
+                        // Customer still has time to read their book
+                        var dateLeft = (Model.ReturnDate.Day - currentDate.Day);
+                        <p>Return By: <span class="text-primary">@Model.ReturnDate.ToString("dd/MM/yyyy") </span> </p>
+                        <button type="submit" asp-page-handler="Return" class="btn">Return Book</button>
 
-                        @if (Model.ReturnDate > currentDate)
-                        {
-                            // Customer still has time to read their book
-                            var dateLeft = (Model.ReturnDate.Day - currentDate.Day);
-                            <p>You have @dateLeft days to return this Book.</p>
-                            <p> Date Due: <span class="text-success">@Model.ReturnDate.ToString("dd/MM/yyyy") </span></p>
-                            <button type="submit" asp-page-handler="Return" class="btn">Return Book</button>
-
-                        }
-                        else
-                        {
-                            // Customer has penalty on their book
-                            <p>You have exceeded the amount of days to return this Book. Pay a Charge</p>
-                            <p>Date was Due: <span class="text-danger">@Model.ReturnDate.ToString("dd/MM/yyyy")</span></p>
-                            <button type="submit" asp-page-handler="ReturnandPay" class="btn">Return Book and Pay Charge</button>
-                        }
 
                     }
                     // Pre Loan the Book
@@ -66,7 +54,11 @@
                     else
                     {
                         <p>There are @Model.BookRecord.Quantity copies of this Book left </p>
-                        <button type="submit" asp-page-handler="Loan" class="btn">Loan Book</button>
+                        <button type="submit" asp-page-handler="Loan" class="btn mb-2">Loan Book</button>
+                        @if (Model.MaxBooks)
+                        {
+                            <p class="text-danger">You have exceeded the amount of books you can loan.</p>
+                        }
                     }
                 }
             </form>

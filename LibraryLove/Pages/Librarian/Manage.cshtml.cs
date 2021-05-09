@@ -19,8 +19,6 @@ namespace LibraryLove.Pages.Librarian
         public List<PreLoanedBook> PreLoanedBooks { get; set; }
 
 
-        [BindProperty]
-        public QuantityBook BookRecord { get; set; }
 
         [BindProperty]
         public PreLoanedBook PreLoanedBook { get; set; }
@@ -66,7 +64,7 @@ namespace LibraryLove.Pages.Librarian
             }
         }
 
-        public void OnPost()
+        public void OnPost(int id, int currentBooks, int addedBooks)
         {
             // Connect to Database
             DBConnection dbstring = new DBConnection();
@@ -79,12 +77,12 @@ namespace LibraryLove.Pages.Librarian
             {
                 command.Connection = conn;
                
-                if(BookRecord.CurrentBooks == 0)
+                if(currentBooks == 0)
                 {
                     // First read PreloanBook Table as we need to know if any customers have preloaned the book  as they will instantly loan the book
                     command.CommandText = @"SELECT TOP(@BFirst) UsernameId FROM PreLoanedBook WHERE BookId = @BId ORDER BY DatePreLoaned";
-                    command.Parameters.AddWithValue("@BFirst", BookRecord.AddedBooks);
-                    command.Parameters.AddWithValue("@BId", BookRecord.BookId);
+                    command.Parameters.AddWithValue("@BFirst", addedBooks);
+                    command.Parameters.AddWithValue("@BId", id);
 
                     SqlDataReader reader = command.ExecuteReader(); // read records 
 
@@ -126,13 +124,13 @@ namespace LibraryLove.Pages.Librarian
                         }
 
                         // change the value - people who preloan the book take priorty 
-                        BookRecord.CurrentBooks = BookRecord.AddedBooks - PreLoanedBooks.Count;
+                        currentBooks = addedBooks - PreLoanedBooks.Count;
                     }
 
                     else
                     {
                         // If no one has preloaned the book we  can just simply add it on
-                        BookRecord.CurrentBooks = BookRecord.CurrentBooks + BookRecord.AddedBooks;
+                       currentBooks += addedBooks;
                     }
 
 
@@ -142,13 +140,13 @@ namespace LibraryLove.Pages.Librarian
                 else
                 {
                     // If no one has preloaned the book we  can just simply add it on
-                    BookRecord.CurrentBooks = BookRecord.CurrentBooks + BookRecord.AddedBooks;
+                    currentBooks  += addedBooks;
                 }
 
                 // Update the quantity 
                 command.CommandText = @"UPDATE Book SET Quantity = @BQuantity WHERE Id = @BookId";
-                command.Parameters.AddWithValue("@BookId", BookRecord.BookId);
-                command.Parameters.AddWithValue("@BQuantity", BookRecord.CurrentBooks);
+                command.Parameters.AddWithValue("@BookId", id);
+                command.Parameters.AddWithValue("@BQuantity", currentBooks);
 
                 command.ExecuteNonQuery();
 

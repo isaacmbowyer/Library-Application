@@ -32,6 +32,8 @@ namespace LibraryLove.Pages.Customer
         public int Id;
         public const string SessionKeyName1 = "userID";
 
+        [BindProperty]
+        public bool MaxBooks { get; set; } = false;
         public void OnGet(int id)
         {
             // Connect to Database
@@ -136,32 +138,52 @@ namespace LibraryLove.Pages.Customer
             {
                 command.Connection = conn;
 
-                // SQL Query to read Book Details
-                command.CommandText = @"INSERT INTO LoanedBook(UsernameId, BookId, DateLoaned, DateReturned) VALUES(@UserID, @BookID, @DLoaned, @DReturned)";
-                command.Parameters.AddWithValue("@UserId", Id = (int)HttpContext.Session.GetInt32(SessionKeyName1));
-                command.Parameters.AddWithValue("@BookId", BookRecord.Id);
-
-                Date = DateTime.Now;
-                ReturnDate = Date.AddDays(7);
-                BookRecord.Quantity -= 1; 
-                command.Parameters.AddWithValue("@DLoaned", Date);
-                command.Parameters.AddWithValue("@DReturned", ReturnDate);
-                command.ExecuteNonQuery();
+                command.CommandText = @"SELECT COUNT(Id) FROM LoanedBook WHERE UsernameId = @UID";
+                command.Parameters.AddWithValue("@UID", Id = (int)HttpContext.Session.GetInt32(SessionKeyName1));
 
 
-                // SQL Query to add the quanity of the book
-                command.CommandText = @"UPDATE Book SET Quantity = @BQuantity WHERE Id = @BookId";
-                command.Parameters.AddWithValue("@BQuantity", BookRecord.Quantity);
+                // Make sure that the user is within the book limit
+                int count = (Int32)command.ExecuteScalar();
 
-                command.ExecuteNonQuery();
+                if (count == 6)
+                {
+                    MaxBooks = true;
+                    return Page();
+                }
+                else
+                {
+                    // User can loan more books 
+
+                    // SQL Query to read Book Details
+                    command.CommandText = @"INSERT INTO LoanedBook(UsernameId, BookId, DateLoaned, DateReturned) VALUES(@UserID, @BookID, @DLoaned, @DReturned)";
+                    command.Parameters.AddWithValue("@BookId", BookRecord.Id);
+
+                    Date = DateTime.Now;
+                    ReturnDate = Date.AddDays(7);
+                    BookRecord.Quantity -= 1;
+                    command.Parameters.AddWithValue("@DLoaned", Date);
+                    command.Parameters.AddWithValue("@DReturned", ReturnDate);
+                    command.ExecuteNonQuery();
 
 
-                
+                    // SQL Query to add the quanity of the book
+                    command.CommandText = @"UPDATE Book SET Quantity = @BQuantity WHERE Id = @BookId";
+                    command.Parameters.AddWithValue("@BQuantity", BookRecord.Quantity);
+
+                    command.ExecuteNonQuery();
+
+
+                    LoanBook = true;
+                    PreLoanBook = false;
+
+                }
+
+
+
             }
 
-            LoanBook = true;
-            PreLoanBook = false;
             return Page();
+
 
 
         }
@@ -281,12 +303,6 @@ namespace LibraryLove.Pages.Customer
             LoanBook = false;
             return Page();
 
-        }
-
-    
-        public IActionResult OnPostReturnAndPay()
-        {
-            return Page();
         }
 
         public void AddQuantity(SqlCommand command, int Id)

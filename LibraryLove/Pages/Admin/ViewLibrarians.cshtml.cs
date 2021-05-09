@@ -35,7 +35,6 @@ namespace AdminProject.Pages.ViewLibrairans
             {
                 command.Connection = conn;
                 command.CommandText = @"SELECT * FROM Member WHERE ROLE = 'Librarian'";
-                command.Parameters.AddWithValue("@User", SearchData);
            
 
                 SqlDataReader read = command.ExecuteReader();

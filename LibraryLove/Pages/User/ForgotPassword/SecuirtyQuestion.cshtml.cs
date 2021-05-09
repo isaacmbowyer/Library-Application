@@ -54,7 +54,7 @@ namespace LibraryLove.Pages.User.ForgotPassword
             if (NewUser.SecurityAnswer == SecurityAnswer)
             {
                 // User has entered all the correct details, they can now change their password
-               return RedirectToPage("/ResetPassword");
+               return RedirectToPage("ResetPassword");
             }
 
             Message = "Incorrect details. Try again";

@@ -23,7 +23,7 @@ namespace LibraryLove.Pages.Admin
         {
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(AdminCreate record)
         {
             if (ModelState.IsValid)
             {

@@ -36,7 +36,6 @@ namespace AdminProject.Pages.ViewCustomers
             {
                 command.Connection = conn;
                 command.CommandText = @"SELECT * FROM Member WHERE ROLE = 'Customer'";
-                command.Parameters.AddWithValue("@User", SearchData);
               
 
                 SqlDataReader read = command.ExecuteReader();

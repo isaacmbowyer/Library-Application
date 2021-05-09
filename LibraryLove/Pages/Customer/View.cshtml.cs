@@ -50,7 +50,7 @@ namespace LibraryLove.Pages.Customer
                 reader.Close();
             }
         }
-        public void OnPost()
+        public void OnPost(Book BookRecord)
         {
             // If the User selected a genre display those revelant books
 

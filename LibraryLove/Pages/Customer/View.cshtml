@@ -6,7 +6,7 @@
 
 <form method="post">
     <div class="form-group d-md-flex">
-        <label class="lead mr-md-2">View By</label>
+        <label asp-for="BookRecord.Genre" class="lead mr-md-2">View By</label>
         <div>
             <select onchange="this.form.submit()"
                     asp-for="BookRecord.Genre"

@@ -36,7 +36,8 @@ namespace LibraryLove.Model
         public string Password { get; set; }
 
         [Required(ErrorMessage ="Confirm Password is required")]
-        [Compare(nameof(Password), ErrorMessage = "Passwords must match")]
+        [Compare(nameof(Password), ErrorMessage = "Passwords do not match")]
+
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 

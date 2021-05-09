@@ -5,8 +5,8 @@
 }
 <form method="post">
     <div class="form-group">
-        <label asp-for="SearchTerm">Search Book by ISBN or Title</label>
-        <input class="form-control" asp-for="SearchTerm" />
+        <label for="search">Search Book by ISBN or Title</label>
+        <input class="form-control" name="search" />
         @if(Model.NoMatch == true)
             {
                 <span class="text-danger">This Book could not be found</span>

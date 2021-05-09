@@ -12,8 +12,6 @@ namespace LibraryLove.Pages.Customer
 {
     public class SearchModel : PageModel
     {
-        [BindProperty]
-        public string SearchTerm { get; set; }
 
         public bool NoMatch { get; set; }
 
@@ -21,9 +19,9 @@ namespace LibraryLove.Pages.Customer
         public List<Book> Books { get; set; }
 
     
-        public void OnPost()
+        public void OnPost(string search)
         {
-            if (SearchTerm != null)
+            if (search != null)
             {
                 // Connect to Database
                 DBConnection dbstring = new DBConnection();
@@ -41,18 +39,19 @@ namespace LibraryLove.Pages.Customer
 
                     command.Connection = conn;
 
-                    bool isDigits = (SearchTerm.All(char.IsDigit) && SearchTerm.StartsWith("9"));
+                    bool isDigits = (search.All(char.IsDigit) && search.StartsWith("9"));
                     if (isDigits)
                     {
                         // User wished to search for an ISBN
                         command.CommandText = @"SELECT Id, Title, AuthorFirstName, AuthorLastName, Image  FROM Book WHERE CONVERT(VARCHAR, ISBN) LIKE + '%' + @BSearch + '%' ORDER BY Title";
-                        command.Parameters.AddWithValue("@BSearch", SearchTerm);
                     }
                     else { 
                         // User might have wished to search for a Title 
                         command.CommandText = @"SELECT Id, Title, AuthorFirstName, AuthorLastName, Image  FROM Book WHERE Title LIKE '%' + @BSearch + '%' ORDER BY Title";
-                        command.Parameters.AddWithValue("@BSearch", SearchTerm);
+
                     }
+
+                    command.Parameters.AddWithValue("@BSearch", search);
 
 
                     SqlDataReader reader = command.ExecuteReader(); // read reecords

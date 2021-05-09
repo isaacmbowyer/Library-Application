@@ -35,35 +35,10 @@ document.querySelector('.submit').addEventListener('click', event => {
     currentQuantity = parseInt(currentQuantity);
     addedQuantity = parseInt(addedQuantity);
 
-    let errorMessage = document.querySelector('#error');
+    // change the quantity - server
+     document.querySelector('form').submit();
 
-    // Check if the current quantity is 20 or more
-    if (currentQuantity == 20) {
-        errorMessage.innerHTML = "This Book Collection has reached max quantity"
-    }
-    else {
-        // Check if the total exceeds 20
-        let total = currentQuantity + addedQuantity;
-
-        if (total > 20) {
-            // Show error
-            errorMessage.innerHTML = "Quantity of a Book Collection cannot exceed 20"
-        }
-        else {
-            if (preLoanedBook) {
-                // if the book is PreLoaned Only, we need to tell the server -> set current quantity to null
-                //document.querySelector('.hiddenQuantityBooks').setAttribute('value', null);
-            }
-
-            // change the quantity - total has not reached 20
-            document.querySelector('form').submit();
-
-        }
-    }
-
-  
-
-
+ 
 });
 
 
