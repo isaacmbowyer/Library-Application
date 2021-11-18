@@ -1,12 +1,12 @@
 # LibraryLove
 A library web application to help people read online books. 
 
-In Order to Access the following Accounts:
+In order to login you will be asked to provide a username and a password.
 
-Customer: 
+To Access a Customer account: 
 Username -> pippa78
 Password -> Password12!
 
-Librarian: 
+To Access a Librarian account: 
 Username -> lucys66
 Password -> Password12!
