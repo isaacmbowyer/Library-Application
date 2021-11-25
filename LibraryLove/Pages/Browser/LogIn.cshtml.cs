@@ -24,7 +24,7 @@ namespace LibraryLove.Pages.Browser
         {
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(LogIn UserRecord)
         {
             // Connect to Database
             DBConnection dbstring = new DBConnection();

@@ -155,7 +155,7 @@ namespace LibraryLove.Pages.Customer
                     // User can loan more books 
 
                     // SQL Query to read Book Details
-                    command.CommandText = @"INSERT INTO LoanedBook(UsernameId, BookId, DateLoaned, DateReturned) VALUES(@UserID, @BookID, @DLoaned, @DReturned)";
+                    command.CommandText = @"INSERT INTO LoanedBook(UsernameId, BookId, DateLoaned, DateReturned) VALUES(@UID, @BookID, @DLoaned, @DReturned)";
                     command.Parameters.AddWithValue("@BookId", BookRecord.Id);
 
                     Date = DateTime.Now;
