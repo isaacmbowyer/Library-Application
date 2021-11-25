@@ -27,14 +27,14 @@
                 @if (Model.PreLoanBook || Model.LoanBook)
                 {
                     // Loan the Book
+
+
                     @if (Model.LoanBook)
                     {
-                        // Customer still has time to read their book
-                        var dateLeft = (Model.ReturnDate.Day - currentDate.Day);
-                        <p>Return By: <span class="text-primary">@Model.ReturnDate.ToString("dd/MM/yyyy") </span> </p>
-                        <button type="submit" asp-page-handler="Return" class="btn">Return Book</button>
+                            // Customer message 
+                            <p>Return By: <span class="text-primary">@Model.ReturnDate.ToString("dd/MM/yyyy") </span> </p>
 
-
+                            <button type="submit" asp-page-handler="Return" class="btn">Return Book</button>
                     }
                     // Pre Loan the Book
                     else
