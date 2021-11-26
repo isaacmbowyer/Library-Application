@@ -1,5 +1,7 @@
 # LibraryLove
-A library web application to help people read online books. 
+A library web application to help people read online books. Part of my Software Projects module where I received a 1st for the project. 
+
+Clone the repository 
 
 In order to login you will be asked to provide a username and a password.
 
